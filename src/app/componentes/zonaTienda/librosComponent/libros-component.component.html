@@ -1,0 +1,49 @@
+<div class="container">
+   <!-- 
+    <div class="row" *ngIf="(this.libros$|async)?.length !==0; else sinlibros">
+        <div class="row">
+                <div class="col-4" *ngFor="let unlibro of (this.libros$|async)">
+                    <app-mini-libro [libro]="unlibro"></app-mini-libro>
+                </div>
+        </div>
+    </div>
+    
+    <ng-template #sinlibros>
+        <div class="row">
+            <div class="col">
+                <p>No se han encontrado LIBROS de esa categoria...intantalo de nuevo con otra</p>
+            </div>
+        </div>
+    </ng-template>
+
+same code as above, but using angular 17 syntax-->
+
+<div class="row">
+    @if((this.libros$ | async)?.length !==0){
+        <div class="row">
+                
+                    @for ( unlibro of (this.libros$ | async); track unlibro ) {
+                        <div class="col-4">
+                            <app-mini-libro [libro]="unlibro"></app-mini-libro>
+
+                        </div>
+                       
+                        
+                    }
+                    @empty {
+                        <div class="col-4">
+                            <p>No se han encontrado LIBROS de esa categoria...intantalo de nuevo con otra</p>
+                        </div>}
+                
+        </div>
+    }@else{
+        <div class="row">
+            <div class="col">
+                <p>No se han encontrado LIBROS de esa categoria...intantalo de nuevo con otra</p>
+            </div>
+        </div>
+    }
+</div>
+
+
+</div> 

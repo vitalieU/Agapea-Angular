@@ -1,0 +1,10 @@
+button[disabled]{
+    cursor:not-allowed;
+    pointer-events: none;
+    color: black;
+    background-color: aliceblue;
+}
+
+input[appEmailfilterdomain]{
+    background-color: aliceblue;
+}

@@ -1,4 +1,4 @@
-import { ICliente } from "./ICliente";
+import { ICliente } from "./cliente";
 
 export  interface IRestMessage {
     codigo:number;

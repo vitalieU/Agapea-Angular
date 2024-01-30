@@ -1,2 +1,26 @@
-<!-- selector donde el modulo de enrutamiento incrusta la vista del componente requerido por el cliente en la url-->
-<router-outlet></router-outlet>
+<header></header>
+<body class="container">
+
+    @if( (this.routerEvent$ | async)!.url.match(this.patron) ){
+        <div class="row">
+            <div class="col-3">
+    
+            </div>
+            
+            <div  class="col-9">
+                <router-outlet></router-outlet>
+            </div>
+        </div>   
+    }
+    @else{
+        <div class="col-12">
+            <router-outlet></router-outlet>
+        </div>
+    }
+
+</body>
+<footer></footer>
+
+
+
+ 

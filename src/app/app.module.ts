@@ -17,12 +17,22 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms'
 //-------------------- componentes del modulo principal de la aplicacion----------------------------
 import { AppComponent } from './app.component';
 import { RegistroComponent } from './componentes/zonaCliente/registroComponent/registro.component';
-import { LoginComponent } from './componentes/zonaCliente/loginComponent/login.component';
 
 //-------------------- directivas del modulo princiapal de la aplicacion ---------------------------
+import { LoginComponent } from './componentes/zonaCliente/loginComponent/login.component';
+
 //-------------------- pipes del modulo princiapal de la aplicacion --------------------------------
 //-------------------- servicios del modulo princiapal de la aplicacion -----------------------------
-import { RestnodeService } from './servicios/restnode.service';
+import RestnodeService from './servicios/restnode.service';
+import { EmailfilterdomainDirective } from './directivas/emailfilterdomain.directive';
+import { CheckemailexistsDirective } from './directivas/checkemailexists.directive';
+import { RegistrookComponent } from './componentes/zonaCliente/registroOKComponent/registrook.component';
+import { PanelclienteComponent } from './componentes/zonaCliente/panelClienteComponent/panelcliente.component';
+import { PaneltiendaComponent } from './componentes/zonaTienda/panelTiendaComponent/paneltienda.component';
+import { RedondeocantidadPipe } from './pipes/redondeocantidad.pipe';
+import { LibrosComponentComponent } from './componentes/zonaTienda/librosComponent/libros-component.component';
+import { DetallesLibroComponent } from './componentes/zonaTienda/detallesLibroComponent/detalles-libro.component';
+import { MiniLibroComponent } from './componentes/zonaTienda/miniLibroComponent/mini-libro.component';
 
 
 @NgModule({
@@ -30,6 +40,15 @@ import { RestnodeService } from './servicios/restnode.service';
     AppComponent,
     RegistroComponent,
     LoginComponent,
+    EmailfilterdomainDirective,
+    CheckemailexistsDirective,
+    RegistrookComponent,
+    PanelclienteComponent,
+    PaneltiendaComponent,
+    RedondeocantidadPipe,
+    LibrosComponentComponent,
+    DetallesLibroComponent,
+    MiniLibroComponent,
     
   ],
   imports: [ //<------------ array con modulos secundiarios q tu aplicacion va a usar

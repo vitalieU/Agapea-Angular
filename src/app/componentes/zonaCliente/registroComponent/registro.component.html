@@ -1,96 +1,124 @@
-<div class="bg-gray-100 flex items-center justify-center h-screen">
-    <div class="bg-white p-8 rounded-lg shadow-lg max-w-screen-lg w-full">
-        <h2 class="text-2xl font-semibold text-left mt-2 mb-4">Registrate en agapea.com</h2>
-        <p class="text-gray-600 text-left mt-4">Tienes tres opciones para registrarte en <span class="font-bold">agapea.com.</span> y disfrutar de nuestros servicios y ventajas.</p>
-        <p class="text-gray-600 text-left mt-2">Puedes hacerlo a través de las redes sociales en <span class="font-bold">4 segundos</span>. O registrarte con nosotros, no tardarás más de 40</p>
-        <p class="text-gray-600 text-left">segundos en hacerlo. Solo tendrás que rellenar el siguiente formulario con tus datos.</p>
-
-        <div class="flex justify-center mb-3 mt-4">
-            Registro con <img class="pl-3" src="../../../../assets/images/agapea-logo.svg" width="186px" height="85px" alt=""/>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2><strong>Registrate en Agapea.com</strong></h2>
+            <p>Tienes tres opciones para registrarte en agapea.com. Tienes tres opciones para registrarte en agapea.com. y disfrutar de nuestros servicios y ventajas. </p>
+            <p>Puedes hacerlo a través de las redes sociales en 4 segundos. O registrarte con nosotros, no tardarás más de 40 segundos en hacerlo. Solo tendrás que rellenar el siguiente formulario con tus datos. </p>
         </div>
+    </div>
 
-        <form [formGroup]="miform" (ngSubmit)="registrarCliente()">
-            <div class="flex flex-row">
-                
-                <div class="flex flex-col w-full p-3">
-                    <div class="mb-4">
-                        <label for="email" class="block text-gray-700 text-sm font-semibold mb-2">Correo electrónico *</label>
-                        <input formControlName="email" type="email" id="email" class="form-input w-full px-4 py-2 border rounded-lg text-gray-700 focus:ring-blue-500" required placeholder="mail@mail.com">
-                       <!-- errores de validacion-->
-                       <span class="text-red-600 text-xs" *ngIf="miform.controls['email'].errors?.['required'] &&  miform.controls['email'].touched">* Email Obligatorio</span>
-                       <span class="text-red-600 text-xs" *ngIf="miform.controls['email'].errors?.['email'] && miform.controls['email'].touched">* Formato de email invalido</span>
+    <div class="row">
+        <div class="col">
+            <p>Registro con <img src="../../../assets/images/agapea-logo.svg" width="186px" height="40px" /></p>
+        </div>
+    </div>   
+    <hr />
 
+    <div class="row">
+        <div class="col">
+            <form [formGroup]="miform" (ngSubmit)="registrarCliente(this.miform)">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">Correo electrónico *</label>
+                        <input formControlName="email" type="email" id="email" class="form-control" required placeholder="mail@mail.com">
+                        <!-- errores de validacion-->
+                        <span class="text-danger" *ngIf="miform.controls['email'].errors?.['required'] &&  miform.controls['email'].touched">* Email Obligatorio</span>
+                        <span class="text-danger" *ngIf="miform.controls['email'].errors?.['email'] && miform.controls['email'].touched">* Formato de email invalido</span>
                     </div>
-                    <div class="mb-4">
-                        <label for="password" class="block text-gray-700 text-sm font-semibold mb-2">Contraseña *</label>
-                        <input formControlName="password" type="password" id="password" class="form-input w-full px-4 py-2 border rounded-lg text-gray-700 focus:ring-blue-500" required placeholder="••••••••">
-                       <!-- errores de validacion-->
-                       <span class="text-red-600 text-xs" *ngIf="miform.controls['password'].errors?.['required'] &&  miform.controls['password'].touched">* Contraseña obligatoria</span>
-                       <span class="text-red-600 text-xs" *ngIf="miform.controls['password'].errors?.['minlength'] && miform.controls['password'].touched">* Minimo 5 caracteres en contraseña</span>
-                       <span class="text-red-600 text-xs" *ngIf="miform.controls['password'].errors?.['pattern'] && miform.controls['password'].touched">* Contraseña debe contener 1 letra MAYS, 1 numero y un caracter alfanumerico</span>
+                    <div class="col-md-6">
+                        <label for="repemail" class="form-label">Repetir correo electrónico *</label>
+                        <input formControlName="repemail" type="email" id="repemail" class="form-control" required placeholder="mail@mail.com">
+                        <!-- errores de validacion-->
+                        <span class="text-danger" *ngIf="miform.controls['repemail'].errors?.['required'] &&  miform.controls['repemail'].touched">* Email Obligatorio</span>
+                        <span class="text-danger" *ngIf="miform.controls['repemail'].errors?.['email'] && miform.controls['repemail'].touched">* Formato de email invalido</span>
+                        <span class="text-danger" *ngIf="miform.controls['repemail'].errors?.['compareTo'] && miform.controls['repemail'].touched">* No coinciden los emails</span>
                     </div>
-                    <div class="mb-4">
-                        <label for="nombre" class="block text-gray-700 text-sm font-semibold mb-2">Nombre *</label>
-                        <input formControlName="nombre" type="text" id="nombre" class="form-input w-full px-4 py-2 border rounded-lg text-gray-700 focus:ring-blue-500" required placeholder="Mi nombre">
-                       <!-- errores de validacion-->
-                        <span class="text-red-600 text-xs" *ngIf="miform.controls['nombre'].errors?.['required'] &&  miform.controls['nombre'].touched">* Nombre Obligatorio</span>
-                        <span class="text-red-600 text-xs" *ngIf="miform.controls['nombre'].errors?.['minlength'] && miform.controls['nombre'].touched">* Numero minimo de caracteres: 3</span>
-                        <span class="text-red-600 text-xs" *ngIf="miform.controls['nombre'].errors?.['maxlength'] && miform.controls['nombre'].touched">* Numero maximo de caracteres: 50</span>
-                    </div>
-                    <div class="mb-4">
-                        <label for="login" class="block text-gray-700 text-sm font-semibold mb-2">Usuario *</label>
-                        <input formControlName="login" type="text" id="login" class="form-input w-full px-4 py-2 border rounded-lg text-gray-700 focus:ring-blue-500" required placeholder="Mi alias">
-                       <!-- errores de validacion-->
-                       <span class="text-red-600 text-xs" *ngIf="miform.controls['login'].errors?.['required'] &&  miform.controls['login'].touched">* Usuario Obligatorio</span>
-                       <span class="text-red-600 text-xs" *ngIf="miform.controls['login'].errors?.['minlength'] && miform.controls['login'].touched">* Numero minimo de caracteres: 3</span>
-                       <span class="text-red-600 text-xs" *ngIf="miform.controls['login'].errors?.['maxlength'] && miform.controls['login'].touched">* Numero maximo de caracteres: 25</span>
-                    </div>        
                 </div>
 
-                <div class="flex flex-col w-full p-3">
-                    <div class="mb-4">
-                        <label for="repemail" class="block text-gray-700 text-sm font-semibold mb-2">Repetir correo electrónico *</label>
-                        <input formControlName="repemail" type="email" id="repemail" class="form-input w-full px-4 py-2 border rounded-lg text-gray-700 focus:ring-blue-500" required placeholder="mail@mail.com">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="password" class="form-label">Contraseña *</label>
+                        <input formControlName="password" type="password" id="password" class="form-control" required placeholder="••••••••">
                         <!-- errores de validacion-->
-                        <span class="text-red-600 text-xs" *ngIf="miform.controls['repemail'].errors?.['required'] &&  miform.controls['repemail'].touched">* Email Obligatorio</span>
-                        <span class="text-red-600 text-xs" *ngIf="miform.controls['repemail'].errors?.['email'] && miform.controls['repemail'].touched">* Formato de email invalido</span>
-                        <span class="text-red-600 text-xs" *ngIf="miform.controls['repemail'].errors?.['compareTo'] && miform.controls['repemail'].touched">* No coinciden los emails</span>
+                        <span class="text-danger" *ngIf="miform.controls['password'].errors?.['required'] &&  miform.controls['password'].touched">* Contraseña obligatoria</span>
+                        <span class="text-danger" *ngIf="miform.controls['password'].errors?.['minlength'] && miform.controls['password'].touched">* Minimo 5 caracteres en contraseña</span>
+                        <span class="text-danger" *ngIf="miform.controls['password'].errors?.['pattern'] && miform.controls['password'].touched">* Contraseña debe contener 1 letra MAYS, 1 numero y un caracter alfanumerico</span>
                     </div>
-                    <div class="mb-4">
-                        <label for="repassword" class="block text-gray-700 text-sm font-semibold mb-2">Repetir contraseña *</label>
-                        <input formControlName="repassword" type="password" id="repassword" class="form-input w-full px-4 py-2 border rounded-lg text-gray-700 focus:ring-blue-500" required placeholder="••••••••">
-                       <!-- errores de validacion-->
-                       <span class="text-red-600 text-xs" *ngIf="miform.controls['repassword'].errors?.['required'] &&  miform.controls['repassword'].touched">* Contraseña obligatoria</span>
-                       <span class="text-red-600 text-xs" *ngIf="miform.controls['repassword'].errors?.['minlength'] && miform.controls['repassword'].touched">* Minimo 5 caracteres en contraseña</span>
-                       <span class="text-red-600 text-xs" *ngIf="miform.controls['repassword'].errors?.['pattern'] && miform.controls['repassword'].touched">* Contraseña debe contener 1 letra MAYS, 1 numero y un caracter alfanumerico</span>
-                       <span class="text-red-600 text-xs" *ngIf="miform.controls['repassword'].errors?.['compareTo'] && miform.controls['repassword'].touched">* Las contraseñas no coinciden</span>
+                    <div class="col-md-6">
+                        <label for="repassword" class="form-label">Repetir contraseña *</label>
+                        <input formControlName="repassword" type="password" id="repassword" class="form-control" required placeholder="••••••••">
+                        <!-- errores de validacion-->
+                        <span class="text-danger" *ngIf="miform.controls['repassword'].errors?.['required'] &&  miform.controls['repassword'].touched">* Contraseña obligatoria</span>
+                        <span class="text-danger" *ngIf="miform.controls['repassword'].errors?.['minlength'] && miform.controls['repassword'].touched">* Minimo 5 caracteres en contraseña</span>
+                        <span class="text-danger" *ngIf="miform.controls['repassword'].errors?.['pattern'] && miform.controls['repassword'].touched">* Contraseña debe contener 1 letra MAYS, 1 numero y un caracter alfanumerico</span>
+                        <span class="text-danger" *ngIf="miform.controls['repassword'].errors?.['compareTo'] && miform.controls['repassword'].touched">* Las contraseñas no coinciden</span>
                     </div>
-                    <div class="mb-4">
-                        <label for="apellidos" class="block text-gray-700 text-sm font-semibold mb-2">Apellidos *</label>
-                        <input formControlName="apellidos" type="text" id="apellidos" class="form-input w-full px-4 py-2 border rounded-lg text-gray-700 focus:ring-blue-500" required placeholder="Mis apellidos">
-                       <!-- errores de validacion-->
-                       <span class="text-red-600 text-xs" *ngIf="miform.controls['apellidos'].errors?.['required'] &&  miform.controls['apellidos'].touched">* Apellidos Obligatorios</span>
-                       <span class="text-red-600 text-xs" *ngIf="miform.controls['apellidos'].errors?.['minlength'] && miform.controls['apellidos'].touched">* Apellidos minimo de caracteres: 3</span>
-                       <span class="text-red-600 text-xs" *ngIf="miform.controls['apellidos'].errors?.['maxlength'] && miform.controls['apellidos'].touched">* Apellidos maximo de caracteres: 200</span>
+                </div>
 
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="nombre" class="form-label">Nombre *</label>
+                        <input formControlName="nombre" type="text" id="nombre" class="form-control" required placeholder="Mi nombre">
+                        <!-- errores de validacion-->
+                        <span class="text-danger" *ngIf="miform.controls['nombre'].errors?.['required'] &&  miform.controls['nombre'].touched">* Nombre Obligatorio</span>
+                        <span class="text-danger" *ngIf="miform.controls['nombre'].errors?.['minlength'] && miform.controls['nombre'].touched">* Numero minimo de caracteres: 3</span>
+                        <span class="text-danger" *ngIf="miform.controls['nombre'].errors?.['maxlength'] && miform.controls['nombre'].touched">* Numero maximo de caracteres: 50</span>
                     </div>
-                    <div class="mb-4">
-                        <label for="tlfno" class="block text-gray-700 text-sm font-semibold mb-2">Telefono (opcional)</label>
-                        <input formControlName="telefono" type="text" id="tlfno" class="form-input w-full px-4 py-2 border rounded-lg text-gray-700 focus:ring-blue-500"  placeholder="Mi telefono(opcional)">
+                    <div class="col-md-6">
+                        <label for="apellidos" class="form-label">Apellidos *</label>
+                        <input formControlName="apellidos" type="text" id="apellidos" class="form-control" required placeholder="Mis apellidos">
+                        <!-- errores de validacion-->
+                        <span class="text-danger" *ngIf="miform.controls['apellidos'].errors?.['required'] &&  miform.controls['apellidos'].touched">* Apellidos Obligatorios</span>
+                        <span class="text-danger" *ngIf="miform.controls['apellidos'].errors?.['minlength'] && miform.controls['apellidos'].touched">* Apellidos minimo de caracteres: 3</span>
+                        <span class="text-danger" *ngIf="miform.controls['apellidos'].errors?.['maxlength'] && miform.controls['apellidos'].touched">* Apellidos maximo de caracteres: 200</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="login" class="form-label">Usuario *</label>
+                        <input formControlName="login" type="text" id="login" class="form-control" required placeholder="Mi alias">
+                        <!-- errores de validacion-->
+                        <span class="text-danger" *ngIf="miform.controls['login'].errors?.['required'] &&  miform.controls['login'].touched">* Usuario Obligatorio</span>
+                        <span class="text-danger" *ngIf="miform.controls['login'].errors?.['minlength'] && miform.controls['login'].touched">* Numero minimo de caracteres: 3</span>
+                        <span class="text-danger" *ngIf="miform.controls['login'].errors?.['maxlength'] && miform.controls['login'].touched">* Numero maximo de caracteres: 25</span>
                     </div>        
-    
-                </div>    
-            </div>
-            <p class="text-gray-600 text-xs text-left mt-4 mb-4">
-                Agapea S.A se compromete a garantizar la seguridad de tus datos y a guardarlos en la más estricta confidencialidad.
-            </p>            
-            <hr>
+                    <div class="col-md-6">
+                        <label for="tlfno" class="form-label">Telefono (opcional)</label>
+                        <input formControlName="telefono" type="text" id="tlfno" class="form-control"  placeholder="Mi telefono(opcional)">
+                    </div>        
+                </div>
+        
+                <p><small class="text-mutted">Agapea S.A se compromete a garantizar la seguridad de tus datos y a guardarlos en la más estricta confidencialidad.</small></p>
+                <hr>
+  
+                 <div class="col-12">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="checkInfo">
+                    <label class="form-check-label" for="checkInfo">                    
+                      Deseo recibir información sobre libros, novedades y eventos de Agapea.com o sus librerías.                
+                    </label>
+                  </div>
+                </div>
+  
+                 <div class="col-12">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="checkCondiciones" name="condUso" value="true" checked>
+                    <label class="form-check-label" for="checkCondiciones">                    
+                      Acepto las condiciones de uso y nuestra politica de cookies.               
+                    </label>
+                  </div>
+                </div>
 
-            <button type="submit" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Registrarme</button>
+                <div class="col-12 mt-3">
+                    <button type="submit" class="btn btn-primary btn-lg" [disabled]="miform.status!=='VALID'">Registrarme</button>
+                </div>
 
-        </form>
+            </form>
+        </div>
     </div>
-  </div>
+</div>
+
 
 
 
