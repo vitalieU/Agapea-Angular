@@ -1,0 +1,10 @@
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{this.direccion.calle}}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{this.direccion.idDireccion}}</h6>
+        <p class="card-text">CP: {{this.direccion.cp}}, Municipio: {{this.direccion.municipio.DMUN50}} (Provincia: {{this.direccion.provincia.PRO}}, Pais: {{this.direccion.pais}})</p>
+
+        <button class="btn btn-outline-primary btn-sm" (click)="this.operarDirecEvent.emit( [this.direccion,'eliminar' ] )" >Editar Direccion</button>
+        <button class="btn btn-outline-danger btn-sm" (click)="this.operarDirecEvent.emit( [this.direccion,'pendientemodificar' ] )">Eliminar Direccion</button>
+    </div>
+</div>

@@ -8,11 +8,11 @@ import { AppRoutingModule } from './app-routing.module';
 
 //HttpClientModule: modulo encargado de dar inyeccion de servicios comumes para hacer pet.HTTP externas
 //usando servicio HttpClient....tb permite definicion INTERCEPTORS
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 //ReactiveFormsModule: modulo donde se definen directivas a usar en vistas de componentes para mapear objetos FormGroup y FormControl
 //contra elemenos del dom (directivas formGroup y formControlName)
-import { ReactiveFormsModule, FormsModule } from '@angular/forms'
+import { ReactiveFormsModule, FormsModule, FormGroup } from '@angular/forms'
 
 //-------------------- componentes del modulo principal de la aplicacion----------------------------
 import { AppComponent } from './app.component';
@@ -26,40 +26,38 @@ import { LoginComponent } from './componentes/zonaCliente/loginComponent/login.c
 import RestnodeService from './servicios/restnode.service';
 import { EmailfilterdomainDirective } from './directivas/emailfilterdomain.directive';
 import { CheckemailexistsDirective } from './directivas/checkemailexists.directive';
-import { RegistrookComponent } from './componentes/zonaCliente/registroOKComponent/registrook.component';
+
+import { SubjectstorageService } from './servicios/subjectstorage.service';
+import {STORAGE_SERVICE} from './servicios/injecitontokenstorage';
+
+import { AuthjwtInterceptor } from './sericios_Interceptors/authjwt.interceptor';
+import { ZonaclienteModule } from './modulos/zonacliente/zonacliente.module';
+import { ZonatiendaModule } from './modulos/zonatienda/zonatienda.module';
 import { PanelclienteComponent } from './componentes/zonaCliente/panelClienteComponent/panelcliente.component';
 import { PaneltiendaComponent } from './componentes/zonaTienda/panelTiendaComponent/paneltienda.component';
-import { RedondeocantidadPipe } from './pipes/redondeocantidad.pipe';
-import { LibrosComponentComponent } from './componentes/zonaTienda/librosComponent/libros-component.component';
-import { DetallesLibroComponent } from './componentes/zonaTienda/detallesLibroComponent/detalles-libro.component';
-import { MiniLibroComponent } from './componentes/zonaTienda/miniLibroComponent/mini-libro.component';
 
 
 @NgModule({
   declarations: [ //<------ array con defs. de componentes, directivas y pipes disponibles para toda la aplicacion
     AppComponent,
-    RegistroComponent,
-    LoginComponent,
-    EmailfilterdomainDirective,
-    CheckemailexistsDirective,
-    RegistrookComponent,
     PanelclienteComponent,
     PaneltiendaComponent,
-    RedondeocantidadPipe,
-    LibrosComponentComponent,
-    DetallesLibroComponent,
-    MiniLibroComponent,
+
     
   ],
   imports: [ //<------------ array con modulos secundiarios q tu aplicacion va a usar
     BrowserModule,
+    AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    AppRoutingModule,
-    FormsModule
+    FormsModule,
+    ZonaclienteModule,
+    ZonatiendaModule
   ],
   providers: [
-    RestnodeService
+    RestnodeService,
+    {provide:STORAGE_SERVICE, useClass:SubjectstorageService}, //<-------- array para definir inyeccion de dependencias de servicios usados por componentes
+    {provide:HTTP_INTERCEPTORS, useClass:AuthjwtInterceptor, multi:true}
   ], //<-------- array para definir inyeccion de dependencias de servicios usados por componentes
   bootstrap: [AppComponent]
 })

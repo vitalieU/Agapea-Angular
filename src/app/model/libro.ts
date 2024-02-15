@@ -1,10 +1,10 @@
-export interface ILibro{
+export type ILibro={
     Autores: string,
     Dimensiones: string,
     Edicion: string,
     Editorial: string,
-    Isbn10: string,
-    Isbn13: string,
+    ISBN10: string,
+    ISBN13: string,
     IdCategoria: string,
     Idioma: string,
     ImagenLibro: string,

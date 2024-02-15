@@ -1,0 +1,165 @@
+<div class="row mt-4">
+    <div class="col-1"><img src="../../../../assets/images/img1_mostrar_pedido_datosentrega.png" style="width: 40px; height:26px;" alt='...' /></div>
+    <div class="col-11"><h4><strong>1.- Datos de entrega</strong></h4></div>
+</div>
+
+<!-- fila de radios para seleccionar direccion principal de envio del cliente u otra nueva... -->
+<div class="row">
+    <!-- no me pilla estos alias def.en el if ¿¿??
+    @if ( 
+          this.datosCliente$ | async; as datoscliente && 
+          datoscliente.direcciones.filter(d=>d.esPrincipal==true)[0] as direccionprincipal 
+          ) 
+          -->
+    @if(this.direccionprincipal != undefined )
+    {
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="direccionradios" id="direccionprincipal" value="direccionprincipal" checked (change)="this.CheckdirPpalEnvio(true)"/>
+            <label class="form-check-label" for="direccionprincipal">
+                {{direccionprincipal.calle}}. {{direccionprincipal.municipio.DMUN50}}, {{direccionprincipal.provincia.PRO}} CP: {{direccionprincipal.cp}} {{direccionprincipal.pais}}
+            </label>
+        </div>
+    }
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="direccionradios" id="direccionagapea" disabled />
+        <label class="form-check-label" for="direccionagapea">
+            Recoger en libreria Agapea (No disponible en este momento. Puede hacer el pedido para el envio a domicilio)
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="direccionradios" id="direccionotra" value="otradireccion" (change)="this.CheckdirPpalEnvio(false)" />
+        <label class="form-check-label" for="direccionotra">
+            Recibir en otra direccion
+        </label>
+    </div>
+
+</div>
+
+<!-- fila de campos para nueva direccion envio solo si esta chequeado RADIO OTRA DIRECCION-->
+@if ( ! this.checkdirppalenvio)
+{
+    <div class="row mt-2" id="filadireccioncontainer">
+
+        <div class="container" id="direccioncontainer">
+            <form [formGroup]="formDatosEnvio" (change)="this.EnviarDatosEnvio()">
+            <div class="row">
+                <div class="col-6">
+                    <label for="inputPais" class="form-label">Pais</label>
+                    <input type="text" class="form-control" id="inputPais" formControlName="pais" placeholder="España" name="pais" />
+                </div>
+                <div class="col-6">
+                    <label for="inputProvincia" class="form-label">Provincia*</label>
+                    <select id="inputProvincia" class="form-select" name="provincia" (change)="CargarMunicipios($any($event.target).value);" formControlName="provincia">
+                        <option value="-1" selected> - Seleccionar Provincia - </option>
+                        @for (unaprov of this.listaProvincias; track unaprov.CPRO)
+                        {
+                            <option [value]="unaprov.CPRO + '-' + unaprov.PRO">{{unaprov.PRO}}</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col-6">
+                    <label for="inputCalle" class="form-label">Direccion completa*</label>
+                    <input type="text" class="form-control" id="inputCalle" placeholder="Mi Direccion" name="calle"  formControlName="direccion"/>
+                </div>
+
+                <div class="col-2">
+                    <label for="inputCP" class="form-label">Codigo Postal*</label>
+                    <input type="text" class="form-control" id="inputCP" placeholder="Codigo Postal: 28803" name="cp" formControlName="cp" />
+                </div>
+
+
+                <div class="col-4">
+                    <label for="inputMunicipio" class="form-label">Localidad*</label>
+                    <select id="inputMunicipio" class="form-select" name="municipio"  #selectmunis formControlName="municipio">
+                        @for(unmuni of this.listaMunicipios$ | async; track unmuni.DMUN50)
+                        {
+                            <option [value]="unmuni.CMUM + '-' + unmuni.DMUN50">{{unmuni.DMUN50}}</option>
+                        }
+                        @empty{
+                            <option value="-1" selected> - Selecciona un Municipio -</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            </form>
+        </div>
+
+    </div>
+}
+
+
+
+<!-- fila de radios para seleccionar datos de contacto persona de envio  -->
+@if (this.datosCliente != null)
+{
+    <div class="row">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="personaenvioradios" id="clienteloggedenvio" value="clienteloggedenvio" checked (change)="this.CheckClienteLoggedEnvio(true)" />
+            <label class="form-check-label" for="clienteloggedenvio">
+                Datos de usuario registrado
+                {{this.datosCliente.cuenta.email}} ( {{this.datosCliente.cuenta.login}} )
+            </label>
+        </div>    
+    </div>
+    @if (this.checkclienteloggedenvio)
+    {
+        <div class="row">
+            <div class='col-1'></div>
+            <div class="col-6">
+                <label for="telefonoContacto" class="form-label">Telefono de contacto*</label>
+                <input type="text" class="form-control" id="telefonoContacto" [placeholder]="this.datosCliente.telefono" name="telefonoContacto"  />
+            </div>    
+        </div>
+    }     
+}
+
+<div class="row">
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="personaenvioradios" id="otrapersonaenvio" value="otrapersonaenvio" (change)="this.CheckClienteLoggedEnvio(false)" />
+        <label class="form-check-label" for="otrapersonaenvio">
+            Usar otros datos
+        </label>
+    </div>
+</div>
+
+<!-- fila de campos para datos de persona de envio -->
+@if (!this.checkclienteloggedenvio){
+        <div class='row'>
+            <div class='col-6'>
+                <label for="nombreEnvio" class="form-label">Nombre*</label>
+                <input type="text" class="form-control" id="nombreEnvio" name="nombreEnvio"  />
+            </div>
+            <div class='col-6'>
+                <label for="apellidosEnvio" class="form-label">Apellidos*</label>
+                <input type="text" class="form-control" id="apellidosEnvio" name="apellidosEnvio"  />
+            </div>
+        </div>
+        <div class="row">
+            <div class='col-6'>
+                <label for="emailEnvio" class="form-label">Correo Electronico*</label>
+                <input type="text" class="form-control" id="emailEnvio" name="emailEnvio"  />
+            </div>
+            <div class='col-6'>
+                <label for="telefonoContactoNuevo" class="form-label">Telefono de contacto*</label>
+                <input type="text" class="form-control" id="telefonoContactoNuevo" name="telefonoContacto"  />
+            </div>
+        </div>
+    }
+<div class="row">
+    <div class='col-12'>
+        <label for="otrosDatos" class="form-label">Otros datos de entrega*</label>
+        <input type="text" class="form-control" id="otrosDatos" name="otrosDatos"  />
+    </div>
+</div>
+
+<div class="row">
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="checkfactura"
+            (change)="this.ShowComponenteDatosFactura($event)">
+        <label class="form-check-label" for="checkfactura">
+            Deseo Factura
+        </label>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 export interface IMunicipio{
-    CMUM: number,
-    CPRO: number,
-    CUN: number,
+    CMUM: string,
+    CPRO: string,
+    CUN: string,
     DMUN50: string,
 }

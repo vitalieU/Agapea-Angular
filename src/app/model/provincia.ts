@@ -1,5 +1,5 @@
 export interface IProvincia{
-    CCOM: number,
-    CPRO: number,
+    CCOM: string,
+    CPRO: string,
     PRO: string,
 }

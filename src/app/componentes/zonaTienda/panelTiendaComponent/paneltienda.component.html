@@ -1,1 +1,27 @@
-<p>paneltienda works!</p>
+
+    <!--panel de categorias raices-->
+    <!--  ...versiones antiguas angular .... 
+
+   <h6 class="text-dark mt-4 ms-3">CATEGORÍAS</h6>
+
+    <div class="list-group" *ngIf="this.listaCategorias$ | async as listaCategorias; else nocats">
+            <a *ngFor="let cat of this.listaCategorias" 
+                (click)="this.GotoCategoria($event,cat)" 
+                class="list-group-item list-group-item-action border border-end-0 border-start-0 text-dark">{{cat.NombreCategoria}}</a>
+    </div>
+    <ng-template #nocats><div>sin una puta categoria...</div></ng-template>
+
+    -->
+    <h6 class="text-dark mt-4 ms-3">CATEGORÍAS</h6>
+
+        <div class="list-group">
+            @for (cat of this.categorias$ | async ; track cat.IdCategoria) {
+                <a (click)="this.GotoCategoria($event,cat)" 
+                    class="list-group-item list-group-item-action border border-end-0 border-start-0 text-dark">
+                    {{cat.NombreCategoria}}
+                </a>
+
+            } @empty {
+                
+            }
+        </div>

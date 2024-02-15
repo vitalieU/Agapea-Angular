@@ -1,10 +1,83 @@
-<header></header>
+<header>
+    <div class="container-lg w-100 m-0 p-0">
+        <div class="row w-100">
+            <div class="col-12">
+
+                <div class="bg-negro m-0 p-0 vw-100">
+                    <div class="row px-2" style="margin-left: 8%;margin-right: 8% ">
+                        <!-- botones de contacto y login/acceso a panel de usuario si esta usuario logueado -->
+                        <div class="col-7" ></div>
+                        <div class="col-4 text-end pe-5" >
+
+                            <!-- link acceso al panel Cliente o login en funcion si se le pasa desde el controlador variable de sesion a la vista...-->
+                            <div class="btn-group btn-group-sm text-end" role="group" aria-label="Basic example">
+                                <a href="#" class="btn btn-negro btn-sm p-0 pe-3">
+                                    <img src="../../assets/images/botonMINIcontacto.png">
+                                </a>
+                                <!-- si hay un objeto sesion CLIENTE muestro el boton con su email y nombre y apellidos para q acceda a su PANEL, sino al LOGIN-->
+                                    <a [routerLink]="['/Cliente/Login']" routerLinkActive="router-link-active"  class="btn bg-negro btn-sm p-0">
+                                        <img src="../../assets/images/botonMINIlogin.png">
+                                    </a>
+                            </div>      
+                        </div>
+                        <div class="col-1"></div>
+                        </div>
+                </div>
+
+                <nav class="bg-light vw-100 m-0 border border-bottom-2">
+                    <div class="row p-2" style="margin-left: 8%;margin-right: 8% ">
+                        <!-- Mi cuenta -->
+                        <div class="col-3 d-flex align-content-center justify-content-center" style="padding-left: 5%">
+                            <a class="p-1" [routerLink]="['/Tienda/Libros','2-10']" routerLinkActive="router-link-active" >
+                                <img src="../../assets/images/agapea-logo.svg" alt="" width="auto" height="45" />
+                            </a>
+                        </div>
+                        <div class="col-5 d-flex justify-content-center">
+                            <form class="w-75" action="http://localhost:4200/Tienda/BuscarLibros" method="post">
+                                <div class="w-100">
+                                    <div class="bg-gray border border-5 border h-100 d-flex flex-r">
+                                        <div class="p-1 flex-fill">
+                                            <input class="border-0 w-100 h-100" type="text" name="cajatext" placeholder="Buscar por libro, autor, ISBN..."/>
+                                        </div>
+                                       <div class="bg-primary p-2 border border-5 border-end-0 border-top-0 border-bottom-0 text-center" style="width: 10%">
+                                                <a id="botonBuscar"  onclick="javascript:document.forms[0].submit()"><img src="../../assets/images/lupa.png" width="auto" height="20" /></a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-4 p-0 pe-5 d-flex justify-content-center">
+                            <div class="h-100">
+                                    <!-- mini carrito -->
+                                <a href="http://localhost:4200/Pedido/MostrarPedido" class="d-flex flex-row align-items-center h-100 bg-white border border-1 btn btn-light p-1">
+                                    <div class="position-relative mx-2">
+                                    <!--<img src="~/images/boton_mini_carrito.png" />--><i class="fa-solid fa-cart-shopping fa-xl"></i>
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                            0
+                                            <span class="visually-hidden">unread messages</span>
+                                        </span>
+                                    </div>
+                                    <span class="ps-2 pe-1"> <small>Total:</small> <span class="text-end" id="precioCarrito" style="width: 110px; font-size: 1.5em"><strong>0,00 €</strong></span></span>
+                                    
+                                    <img class="align-content-lg-center mx-2" src="../../assets/images/boton_flecha_minicarrito.png"/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+
+            </div>
+        </div>
+    </div>
+</header>
 <body class="container">
 
-    @if( (this.routerEvent$ | async)!.url.match(this.patron) ){
+    @if( !(this.routerEvent$ | async)!.url.match(this.patron) ){
         <div class="row">
             <div class="col-3">
-    
+                <app-paneltienda></app-paneltienda>
+
             </div>
             
             <div  class="col-9">

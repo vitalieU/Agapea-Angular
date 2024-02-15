@@ -1,0 +1,73 @@
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-1"><img src="../../../../assets/images/im3_motrar_pedido_pago.png" style="width: 40px;height:26px;" /></div>
+        <div class="col-11" id="txtpago"><h4><strong>{{this.tituloPago}}</strong></h4></div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pagoradios" id="pagotarjeta" checked value="pagotarjeta"/>
+                <label class="form-check-label" htmlFor="pagotarjeta">
+                    Pago con tarjeta
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pagoradios" id="pagopaypal" value="pagopaypal" />
+                <label class="form-check-label" htmlFor="pagopaypal">
+                    Pago mediante <img src="../../../../assets/images/paypal.gif" alt=".." />
+                </label>
+            </div>
+        </div>
+    </div>
+     <!-- datos tarjeta si radio pagostarjeta checkeado-->
+    <div class="row mt-2" id="filadatoscardcontainer">
+        <div class="container" id="datoscardcontainer" style="background:#ededed">
+                    <div class="row">
+                        <div class="col"><h5>Datos de la tarjeta</h5></div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-5">
+                            <label htmlFor="inputNumero" class="form-label">Numero de la tarjeta *</label>
+                            <input type="text" id="inputNumero" class="form-control" name="numerocard"  />
+                        </div>
+    
+                        <div class="col-3">
+                            <label class="form-label">Fecha caducidad</label>
+                            <select id="inputAnio" class="form-select" name="aniocard" >
+                                @for (anio of this.anios; track $index)
+                                {
+                                    <option value="@anio">{{anio}}</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-2">
+                            <label class="form-label">Año/Mes</label>
+                            <select id="inputMes" class="form-select" name="mescard">
+                                @for (mes of this.meses; track $index)
+                                {
+                                    <option value="@mes">{{mes}}</option>
+                                }
+                            </select>
+                        </div>
+    
+                        <div class="col-2">
+                            <label htmlFor="inputCVV" class="form-label">CVV *</label>
+                            <input type="text" class="form-control" id="inputCVV" name="cvv"/>
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col">
+                            <label htmlFor="inputNombreBanco" class="form-label">Nombre del banco de la tarjeta *</label>
+                            <input type="text" class="form-control" id="inputNombreBanco" name="nombrebancocard" />
+                        </div>
+                    </div>
+    
+                    <div class="row mt-2">
+                        <div class="col"><img src="../../../../assets/images/tarjetas.png" style="width: 200px; height: 41px;" alt="..." /><span class="text-muted">Pago Seguro 100% garantizado</span></div>
+                    </div>
+                </div>
+    </div>
+</div>

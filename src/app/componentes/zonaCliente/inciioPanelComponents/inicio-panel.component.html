@@ -1,0 +1,126 @@
+@if( this.datosClienteStorage$ | async ){
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2>Mi perfil</h2>
+                <div></div><!--sangria-->            
+                <form [formGroup]="formdatos" (ngSubmit)="UpdateDatosCliente()">
+                    <div class="alert alert-secondary" data-bs-toggle="collapse" href="#collapseDatos">Datos de perfil</div>          
+                    <div class="collapse" id="collapseDatos">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="row text-muted">Correo electrónico</div>
+                                <div class="row"><input type="text" id="inputEmail" class="input-group-text" style="width:90%"  formControlName="email"/></div>
+                                <div class="row text-muted">Contraseña</div>
+                                <div class="row"><input type="password" id="inputPass" class="input-group-text" style="width:90%"  formControlName="password" /></div>
+                                <div class="row text-muted">Nombre</div>
+                                <div class="row"><input type="text" id="inputNombre" class="input-group-text" style="width:90%"  formControlName="nombre"  /></div>
+    
+                            </div>
+    
+                            <div class="col-sm-6">
+                                <div class="row text-muted">Teléfono</div>
+                                <div class="row"><input type="text" id="inputTlfn" class="input-group-text" style="width:90%"  formControlName="telefono" /></div>
+                                <div class="row text-muted">Repetir la contraseña</div>
+                                <div class="row"><input type="password" id="inputPassRep" class="input-group-text" style="width:90%"  formControlName="repassword"/></div>
+                                <div class="row text-muted">Apellidos</div>
+                                <div class="row"><input type="text" id="inputApellidos" class="input-group-text" style="width:90% "  formControlName="apellidos" /></div>
+    
+                            </div>
+                        </div>
+                        <div class="row"><span></span></div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="text-muted">Foto</div>
+                                <div id="avatarPerfil" class="card" style="width:200px;height:250px; background-color:aliceblue">
+                                    <input type="file" accept="image/*" id="selectorImagen" #inputimagen style="visibility: hidden;" (change)="PrevisualizarImagen(inputimagen)"/>
+                                    <a onclick="javascript: document.getElementById('selectorImagen').click()">
+                                    <img id="imagenUsuario" style="height:250px; width:200px;" [src]="imgSrc || '../../../../assets/images/imagen_usuario_sinavatar.jpg'" />
+                                    </a>
+                                </div>
+                                <button type="button" 
+                                        class="btn btn-link btn-sm"
+                                        id="botonUploadImagen" 
+                                        #btnUploadImagen 
+                                        appBotonuploadenabled
+                                        (click)="UploadImagen()"
+                                        disabled> + Sube una foto</button>
+                                <div id="mensajeServicioREST"></div>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="row text-muted">Usuario</div>
+                                <div class="row"><input type="text" id="inputUsuario" class="input-group-sm"  formControlName="login" /></div>
+                                <div class="row text-muted">Genero</div>
+                                <div class="row">
+                                    <select class="form-select" id="genero" aria-label="Elige genero"  formControlName="genero">
+                                        <option value="0" selected>Elige genero</option>
+    
+                                        <option value="Hombre">Hombre</option>
+                                        <option value="Mujer">Mujer</option>
+                                    </select>
+                                </div>
+                                <div class="row text-muted">Fecha de nacimiento</div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <select  formControlName="dia" id="dia" class="form-select">
+                                            <option value="-1" selected>Elige día</option>
+                                            <option *ngFor="let dia of dias" [value]="dia">{{dia}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <select  formControlName="mes" id="mes" class="form-select">
+                                            <option value="-1" selected>Elige mes</option>
+                                            <option *ngFor="let mes of meses;index as i" [value]="i">{{mes}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <select  formControlName="anio" id="anio" class="form-select">
+                                            <option value="-1" selected>Elige año</option>
+                                            <option  *ngFor="let anio of anios" [value]="anio">{{anio}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row text-muted">Descripcion</div>
+                                <div class="row"><textarea id="textArea"   formControlName="descripcion"></textarea> </div>
+                                <div class="ro2 align-text-top m-2">
+                                        <a href=""> Darme de baja</a>
+                                        <button type="submit" class="m-10 btn btn-primary">Modificar Datos</button>
+                                </div>
+    
+                            </div>
+                        </div>
+                    </div>              
+                </form>
+    
+                <div class="alert alert-secondary" data-bs-toggle="collapse" href="#collapseDirecciones">Direcciones</div>
+                <div class="collapse" id="collapseDirecciones">
+                    <div>
+                        <p> Guarda todas tus direcciones de envío y elige la que usarás por defecto donde llegarán tus pedidos.</p>
+    
+                       <p> Estas son las direcciones a las que puedes hacer tus envíos. Las direcciones de envío serán las que elijas mientras que la
+                            facturación será la misma en todas las direcciones:
+                        </p>
+                    </div>
+                    <hr>
+                
+                    <!-- listado de direcciones del cliente para borrar/modificar -->
+                    @if (this.direcciones$ | async) {
+                        @for (direc of this.direcciones$ | async ; track $index) {
+                            <app-minidireccion [direccion]="direc" (operarDirecEvent)="this.OperarDirecciones($event)"></app-minidireccion>
+                        }
+                    }
+    
+                    <!-- Button trigger modal -->
+                    <button #btonNewDireccion type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                      + Nueva Direccion
+                    </button>
+    
+                    <!-- Modal -->
+                    <app-modaldirecciones #modaldirec></app-modaldirecciones>
+    
+                </div>
+            </div>
+        </div>
+    </div> 
+}
+    

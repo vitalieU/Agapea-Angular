@@ -1,0 +1,101 @@
+<div class="row" id="filafacturacontainer">
+    <div class="container" id="facturacontainer">
+
+        <div class="row mt-4">
+            <div class="col-1"><img src="../../../../assets/images/img2_mostrar_pedido_factura.png" style="width: 40px; height:26px;" alt="..." /></div>
+            <div class="col-11"><h4><strong>2.- Datos para su factura</strong></h4></div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="tipofactura" id="datosfacturaempresa" checked value="facturaempresa" (change)="this.CheckEmpresaChange(true)" />
+                    <label class="form-check-label" for="datosfacturaempresa">
+                        Empresa
+                    </label>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="tipofactura" id="datosfacturaparticular" value="facturaparticular" (change)="this.CheckEmpresaChange(false)" />
+                    <label class="form-check-label" for="datosfacturaparticular">
+                        Profesional, particular o autononmo
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <label for="nombreFactura" class="form-label"> {{this.checkempresa ? "Nombre de la empresa" : "Apellidos y Nombre"}}  </label>
+                <input type="text" class="form-control" id="nombreFactura" name="nombreFactura"  />
+            </div>
+            <div class="col-6">
+                <label for="docFactura" class="form-label"> {{this.checkempresa ? "CIF" : "NIF"}} </label>
+                <input type="text" class="form-control" id="docFactura" name="docFactura" />
+            </div>
+        </div>
+
+<!-- fila checkbox direccion de facturacio igual q la de envio -->
+        <div class="row">
+            <div class="col">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="checkdireccionfactura" checked (change)="this.checkmismadirecfactura=!this.checkmismadirecfactura "/>
+                    <label class="form-check-label" for="checkdireccionfactura">
+                        Direccion de facturacion igual que la de envio
+                    </label>
+                </div>
+            </div>
+        </div>
+
+ <!--  fila para nueva direccion de facturacion si checkbox anterior no esta chequeado -->
+    @if (!this.checkmismadirecfactura)
+    {
+            <div class="row mt-2" id="filadireccionfacturacioncontainer">
+                <div class="container" id="direccionfacturacioncontainer">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="inputPaisFactura" class="form-label">Pais</label>
+                            <input type="text" class="form-control" id="inputPaisFactura" placeholder="España" name="paisfactura" />
+                        </div>
+                        <div class="col-6">
+                            <label for="inputProvinciaFactura" class="form-label">Provincia*</label>
+                            <select id="inputProvinciaFactura" class="form-select" name="provinciafactura" (change)="CargarMunicipios($any($event.target).value);">
+                                <option value="-1" defaultValue={true}> - Seleccionar Provincia - </option>
+                                @for (unaprov of this.listaProvincias; track unaprov.CPRO)
+                                {
+                                    <option [value]="unaprov.CPRO + '-' + unaprov.PRO">{{unaprov.PRO}}</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class='row'>
+                        <div class="col-6">
+                            <label for="inputCalleFactura" class="form-label">Direccion completa*</label>
+                            <input type="text" class="form-control" id="inputCalleFactura" placeholder="Mi Direccion" name="callefactura" />
+                        </div>
+
+                        <div class="col-2">
+                            <label for="inputCPFactura" class="form-label">Codigo Postal*</label>
+                            <input type="text" class="form-control" id="inputCPFactura" placeholder="Codigo Postal: 28803" name="cpfactura" />
+                        </div>
+
+
+                        <div class="col-4">
+                            <label for="inputMunicipioFactura" class="form-label">Localidad*</label>
+                            <select id="inputMunicipioFactura" class="form-select" name="municipiofactura"  #selectmunis>
+                                @for(unmuni of this.listaMunicipios$ | async; track unmuni.DMUN50)
+                                {
+                                    <option [value]="unmuni.CMUM + '-' + unmuni.DMUN50">{{unmuni.DMUN50}}</option>
+                                }
+                                @empty{
+                                    <option value="-1" selected> - Selecciona un Municipio -</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+     }
+    </div>
+</div>

@@ -1,11 +1,11 @@
 
-<div class="mb-3" style="max-width: 540px;" id="cardLibro-{{this.libro.Isbn13}}">
+<div class="mb-3" style="max-width: 540px;" id="cardLibro-{{this.libro.ISBN13}}">
 
   <div class="row g-0">
       <!-- columna para miniimagen del libro y boton comprar-->
       <div class="col-md-4 text-center d-flex flex-column justify-content-center">
           <div>
-              <a  [routerLink]="['/Tienda/MostrarLibro',this.libro.Isbn13]" routerLinkActive="router-link-active" >
+              <a  [routerLink]="['/Tienda/MostrarLibro',this.libro.ISBN13]" routerLinkActive="router-link-active" >
                   <img class="img-fluid rounded-start rounded-end" [src]="this.libro.ImagenLibroBASE64" alt="...">
               </a>
           </div>
@@ -20,7 +20,7 @@
       <!-- columna para titulo del libro, autores, editorial, pags y precio-->
       <div class="col-md-8">
           <div class="ms-3">
-              <h6 class="card-title" style="height: 50px"><a class="text-decoration-none" [routerLink]="['/Tienda/MostrarLibro',this.libro.Isbn13]" routerLinkActive="router-link-active">{{this.libro.Titulo}}</a></h6>
+              <h6 class="card-title" style="height: 50px"><a class="text-decoration-none" [routerLink]="['/Tienda/MostrarLibro',this.libro.ISBN13]" routerLinkActive="router-link-active">{{this.libro.Titulo}}</a></h6>
               <div class="card-text">{{this.libro.Autores}}</div>
               <div class="card-text">{{this.libro.Editorial}}</div>
               <div class="card-text"><small class="text-muted">{{this.libro.NumeroPaginas}}  páginas</small></div>

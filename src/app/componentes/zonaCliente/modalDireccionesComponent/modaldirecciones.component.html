@@ -1,0 +1,68 @@
+<div #divmodal class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">{{this.operacion=='crear' ? 'Nueva Direccion': 'Modificar Direccion existente'}}</h5>
+          <button #btonCerrar type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="this.ResetValoresModal()"></button>
+        </div>
+        <div class="modal-body">
+              <div class="container">
+                  <div class="row">
+                      <p>Si desea que enviemos el pedido a una dirección distinta de la de facturación, modifique los campos a </p>
+                      <p>continuación según proceda.</p>
+                  </div>
+                  <div class="row">
+                      <!-- formulario de alta de direcciones -->
+                      <form [formGroup]="formdirecciones" class="row g-3" id="formDirecciones" (ngSubmit)="OperarDireccion()">
+
+                        <div class="col-12">
+                          <label for="inputCalle" class="form-label">Direccion de Envio:</label>
+                          <input type="text" class="form-control" id="inputCalle" placeholder="Mi Direccion" formControlName="calle">
+                        </div>
+
+                        <div class="col-6">
+                          <label for="inputCP" class="form-label">Codigo Postal:</label>
+                          <input type="text" class="form-control" id="inputCP" placeholder="Codigo Postal: 28803" formControlName="cp">
+                        </div>
+                        <div class="col-6">
+                          <label for="inputPais" class="form-label">Pais:</label>
+                          <input type="text" class="form-control" id="inputPais" placeholder="España" formControlName="pais">
+                        </div>
+                        
+                        
+                        <div class="col-6">
+                          <label for="inputProvincia" class="form-label">Provincia:</label>
+                          <select id="inputProvincia" class="form-select" formControlName="provincia" (change)="this.CargarMunicipios($any($event.target).value)">
+                            <option value="-1" selected> - Seleccionar Provincia - </option>
+                            @for (unaprov of this.listaprovincias$ | async ; track unaprov.CPRO)
+                            {
+                                <option [value]="unaprov.CPRO + '-' + unaprov.PRO">{{unaprov.PRO}}</option>
+                            }                          
+                            </select>
+                        </div>
+                        <div class="col-6">
+                          <label for="inputMunicipio" class="form-label">Municipio:</label>
+                          <select id="inputMunicipio" class="form-select" formControlName="municipio" #selectmunis>
+                            @for(unmuni of this.listamunicipios$ | async; track unmuni.DMUN50)
+                            {
+                                <option [value]="unmuni.CMUM + '-' + unmuni.DMUN50">{{unmuni.DMUN50}}</option>
+                            }
+                            @empty{
+                                <option value="-1" selected> - Selecciona un Municipio -</option>
+                            }
+
+                          </select>
+                        </div>
+
+                        <hr>  
+                        <div class="col-12">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="this.HideModal()">Close</button>
+                          <button type="submit" class="btn btn-primary" id="btnCrearDireccion" >{{this.operacion=='crear' ? 'Crear Direccion' : 'Modificar Direccion'}}</button>
+                        </div>
+                      </form>
+                  </div>
+              </div>
+        </div>
+      </div>
+    </div>
+</div>

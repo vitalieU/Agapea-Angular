@@ -6,7 +6,9 @@ import {
   Router,
   RouterEvent,
 } from '@angular/router';
-import { Observable, filter, map } from 'rxjs';
+import { Observable, filter, map, switchMap } from 'rxjs';
+import { ICategoria } from './model/categoria';
+import RestnodeService from './servicios/restnode.service';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +16,9 @@ import { Observable, filter, map } from 'rxjs';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
+  title(title: any) {
+    throw new Error('Method not implemented.');
+  }
   //showPanel: string = ''; //<= 'panelCliente' si la ruta es /Cliente/Panel
   // 'panelTienda' si la ruta es /Tienda
   // '' si la ruta es /Cliente/Login o /Cliente/Registro
@@ -21,7 +26,7 @@ export class AppComponent {
   routerEvent$:Observable<RouterEvent>;
   patron: RegExp = new RegExp('/Cliente/(Login|Registro)|/Tienda/MostrarPedido');
 
-  constructor(router: Router) {
+  constructor(router: Router, private _rest: RestnodeService, private activatedRoute: ActivatedRoute) {
     /*
     router.events.subscribe((ev) => {
       if(ev instanceof NavigationStart){
@@ -38,4 +43,7 @@ export class AppComponent {
     filter((ev)=>ev instanceof NavigationStart )
   );
   }
+
+
+
 }
