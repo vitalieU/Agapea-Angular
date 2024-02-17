@@ -7,13 +7,13 @@
     <div class="row">
         <div class="col">
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="pagoradios" id="pagotarjeta" checked value="pagotarjeta"/>
+                <input class="form-check-input" type="radio" name="pagoradios" id="pagotarjeta" checked value="pagotarjeta" (change)="this.datosPago.metodoPago='pagotarjeta'"/>
                 <label class="form-check-label" htmlFor="pagotarjeta">
                     Pago con tarjeta
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="pagoradios" id="pagopaypal" value="pagopaypal" />
+                <input class="form-check-input" type="radio" name="pagoradios" id="pagopaypal" value="pagopaypal" (change)="this.datosPago.metodoPago='pagopaypal'"/>
                 <label class="form-check-label" htmlFor="pagopaypal">
                     Pago mediante <img src="../../../../assets/images/paypal.gif" alt=".." />
                 </label>
@@ -30,12 +30,12 @@
                     <div class="row">
                         <div class="col-5">
                             <label htmlFor="inputNumero" class="form-label">Numero de la tarjeta *</label>
-                            <input type="text" id="inputNumero" class="form-control" name="numerocard"  />
+                            <input type="text" id="inputNumero" class="form-control" name="numerocard"   [value]="this.datosPago.numeroTarjeta ||''" (input)="this.datosPago.numeroTarjeta=$any($event.target).value"/>
                         </div>
     
                         <div class="col-3">
                             <label class="form-label">Fecha caducidad</label>
-                            <select id="inputAnio" class="form-select" name="aniocard" >
+                            <select id="inputAnio" class="form-select" name="aniocard"  [value]="this.datosPago.anioCaducidad ||''" (input)="this.datosPago.anioCaducidad=$any($event.target).value">
                                 @for (anio of this.anios; track $index)
                                 {
                                     <option value="@anio">{{anio}}</option>
@@ -44,7 +44,7 @@
                         </div>
                         <div class="col-2">
                             <label class="form-label">Año/Mes</label>
-                            <select id="inputMes" class="form-select" name="mescard">
+                            <select id="inputMes" class="form-select" name="mescard"  [value]="this.datosPago.mesCaducidad ||''" (input)="this.datosPago.mesCaducidad=$any($event.target).value">
                                 @for (mes of this.meses; track $index)
                                 {
                                     <option value="@mes">{{mes}}</option>
@@ -54,14 +54,14 @@
     
                         <div class="col-2">
                             <label htmlFor="inputCVV" class="form-label">CVV *</label>
-                            <input type="text" class="form-control" id="inputCVV" name="cvv"/>
+                            <input type="text" class="form-control" id="inputCVV" name="cvv"  [value]="this.datosPago.cvv ||''" (input)="this.datosPago.cvv=$any($event.target).value"/>
                         </div>
                     </div>
     
                     <div class="row">
                         <div class="col">
                             <label htmlFor="inputNombreBanco" class="form-label">Nombre del banco de la tarjeta *</label>
-                            <input type="text" class="form-control" id="inputNombreBanco" name="nombrebancocard" />
+                            <input type="text" class="form-control" id="inputNombreBanco" name="nombrebancocard"  [value]="this.datosPago.nombreBanco ||''" (input)="this.datosPago.nombreBanco=$any($event.target).value"/>
                         </div>
                     </div>
     

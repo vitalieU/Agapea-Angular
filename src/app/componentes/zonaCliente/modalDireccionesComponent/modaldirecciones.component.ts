@@ -36,6 +36,7 @@ export class ModaldireccionesComponent {
       ); //cierre formgroup direcciones
     } 
 
+
    public  CargarMunicipios( provSelec:string){ //<--- va: "cpro - nombre provincia"
       //this.selectmunis.nativeElement.innerHTML='';
       this.listamunicipios$=this.restSvc.RecuperarMunicipios(provSelec.split('-')[0]);

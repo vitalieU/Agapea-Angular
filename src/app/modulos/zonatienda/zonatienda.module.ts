@@ -15,6 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from '../../app-routing.module';
 import { MiniLibroComponent } from '../../componentes/zonaTienda/miniLibroComponent/mini-libro.component';
 import { DetalleslibroComponent } from '../../componentes/zonaTienda/detallesLibroComponent/detalles-libro.component';
+import { FinalizarPedidoOkComponent } from '../../componentes/zonaTienda/finalizarPedidoOkCompnent/finalizar-pedido-ok.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { DetalleslibroComponent } from '../../componentes/zonaTienda/detallesLib
     DatospagoComponent,
     RedondeocantidadPipe,
     MiniLibroComponent,
+    FinalizarPedidoOkComponent
     ],
   imports: 
   [

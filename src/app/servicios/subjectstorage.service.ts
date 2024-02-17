@@ -24,6 +24,7 @@ export class SubjectstorageService implements IStorageService{
 
   AlmacenarDatosCliente(datoscliente: ICliente): void {
     this._clienteSubject$.next(datoscliente);
+    console.log('almacenando datos cliente...', datoscliente);
   }
   AlmacenarJWT(jwt: string): void {
     this._jwtSubject$.next(jwt);

@@ -1,83 +1,81 @@
 <div class="container">
-  <div class="row">
-      <!-- columna para datos del pedido: direccion envio, facturacion, datos pago-->
-      <div class="col-7">
-          <div class="container">
-              <div class="row">
-                  <div class="col">
-                      <app-datosenvio [listaProvincias]="(this.listaProvincias$ | async)!" (checkdatosFacturacionEvent)="this.ShowCompDatosFacturacion($event)"  (datosEnvioEvent)="this.DatosEnvio($event)"></app-datosenvio>
-                      @if(this.showcompdatosfacturacion)
-                      {
-                          <app-datosfacturacion></app-datosfacturacion>
-                      }
-                      <app-datospago [tituloPago]="this.showcompdatosfacturacion ? '3. - Datos Pago':'2. - Datos Pago'"></app-datospago>
-                  </div>
-              </div>
+    <div class="row">
+        <!-- columna para datos del pedido: direccion envio, facturacion, datos pago-->
+        <div class="col-7">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <app-datosenvio [datosPago]="this.datosPago" [listaProvincias]="(this.listaProvincias$ | async)!" (checkdatosFacturacionEvent)="this.ShowCompDatosFacturacion($event)"></app-datosenvio>
+                        @if(this.showcompdatosfacturacion)
+                        {
+                            <app-datosfacturacion [datosPago]="this.datosPago" [listaProvincias]="(this.listaProvincias$ | async)!"></app-datosfacturacion>
+                        }
+                        <app-datospago [datosPago]="this.datosPago" [tituloPago]="this.showcompdatosfacturacion ? '3. - Datos Pago':'2. - Datos Pago'"></app-datospago>
+                    </div>
+                </div>
 
-              <div class="row mt-3">
-                  <div class="col-4"></div>
-                  <div class="col-6">
-                       <a (click)="FinalizarPedido()"
-                           class="btn btn-primary btn-lg">
-                       <i class="fa-solid fa-truck-fast"></i>  Finalizar Pedido
-                   </a></div>
-              </div>                
-          </div>
-      </div>
+                <div class="row mt-3">
+                    <div class="col-4"></div>
+                    <div class="col-6">
+                         <button (click)="FinalizarPedido()" class="btn btn-primary btn-lg"><i class="fa-solid fa-truck-fast"></i>  Finalizar Pedido</button>
+                    </div>
+                </div>                
+            </div>
+        </div>
 
-      <!-- columna para elementos del pedido, subtotal, gastos envio y total -->
-      <div class="col-5">
-          <div class="container">
-              <div class="row">
-                  <div class="col"><h5><strong>Resumen de la cesta</strong></h5></div>
-              </div>
-              @for (item of this.listaItemsPedido$| async ; track item.libroElemento.ISBN13  ) {
-                  <div class="row">
-                      <div class="col">
-                          <app-elementopedido [elemento]="item" (operarItemEvent)="ModficarItemPedido($event)"></app-elementopedido>
-                      </div>
-                  </div>
+        <!-- columna para elementos del pedido, subtotal, gastos envio y total -->
+        <div class="col-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col"><h5><strong>Resumen de la cesta</strong></h5></div>
+                </div>
+                @for (item of this.listaItems$ | async ; track item.libroElemento.ISBN13) {
+                    <div class="row">
+                        <div class="col">
+                            <app-elementopedido [elmento]="item" (operarItemEvent)="ModficarItemPedido($event)"></app-elementopedido>
+                        </div>
+                    </div>
 
-              }
-              @empty {
-                  <div class="row"><div class="col"><p>...sin elementos en el pedido actual....</p></div></div>
-              }
-              <hr />
+                }
+                @empty {
+                    <div class="row"><div class="col"><p>...sin elementos en el pedido actual....</p></div></div>
+                }
+                <hr />
 
-              <div class="row">
-                  <div class="col-10"><p><strong>Subtotal: </strong></p></div>
-                  <div class="col-2"><p style="color:red">{{(this.TotalPedido$ | async)!|redondeocantidad}}  €</p></div>
-              </div>
+                <div class="row">
+                    <div class="col-10"><p><strong>Subtotal:</strong></p></div>
+                    <div class="col-2"><p style="color:red">{{ (this.subTotal$ | async)! | redondeocantidad: 2 }} €</p></div>
+                </div>
 
-              <div class="row">
-                  <div class="col-10"><p><strong>Gastos de envio y Gestion:</strong></p></div>
-                  <div class="col-2"><p style="color:red">2 €</p></div>
-              </div>
+                <div class="row">
+                    <div class="col-10"><p><strong>Gastos de envio y Gestion:</strong></p></div>
+                    <div class="col-2"><p style="color:red">{{this.gastosEnvio}} €</p></div>
+                </div>
 
-              <div class="row" style="background: #ededed">
-                  <div class="col-10"><p><strong>Total a pagar:</strong></p></div>
-                  <div class="col-2"><p style="color:red">{{ (   (  (this.TotalPedido$|async)!+2)! |redondeocantidad) }} €</p></div>
-              </div>
+                <div class="row" style="background: #ededed">
+                    <div class="col-10"><p><strong>Total a pagar:</strong></p></div>
+                    <div class="col-2"><p style="color:red">{{ (this.subTotal$ | async)! + this.gastosEnvio | redondeocantidad: 2 }} €</p></div>
+                </div>
 
-              <div class="row">
-                  <small>El periodo de entrega es <span style="color:forestgreen">de 24 a 48 Horas</span></small>
-              </div>
+                <div class="row">
+                    <small>El periodo de entrega es <span style="color:forestgreen">de 24 a 48 Horas</span></small>
+                </div>
 
-              <div class="mt-3 d-flex flex-row justify-content-between">
-                  <div>
-                      <a class="btn btn-light"
-                         [routerLink]="['/Tienda/Libros']" routerLinkActive="router-link-active" >
-                          <i class="fa-solid fa-book"></i> Seguir Comprando
-                      </a>
-                  </div>
-                  <div>
-                      <a class="btn btn-primary">
-                          <i class="fa-solid fa-truck"></i> Finalizar Pedido
-                      </a>
-                  </div>
-              </div>
+                <div class="mt-3 d-flex flex-row justify-content-between">
+                    <div>
+                        <a class="btn btn-light"
+                           [routerLink]="['/Tienda/Libros']" routerLinkActive="router-link-active" >
+                            <i class="fa-solid fa-book"></i> Seguir Comprando
+                        </a>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" (click)="FinalizarPedido()" >
+                            <i class="fa-solid fa-truck"></i> Finalizar Pedido
+                        </button>
+                    </div>
+                </div>
 
-          </div>
-      </div>
-  </div>  
+            </div>
+        </div>
+    </div>  
 </div>

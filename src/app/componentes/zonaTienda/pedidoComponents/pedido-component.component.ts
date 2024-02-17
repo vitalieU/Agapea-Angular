@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { Observable, map, switchMap, concatMap } from 'rxjs';
+import { Observable, map, switchMap, concatMap, mergeMap } from 'rxjs';
 import { ICliente } from '../../../model/cliente';
 import { ILibro } from '../../../model/libro';
 import { STORAGE_SERVICE } from '../../../servicios/injecitontokenstorage';
@@ -8,6 +8,8 @@ import { KeyValue } from '@angular/common';
 import { IProvincia } from '../../../model/provincia';
 import RestnodeService from '../../../servicios/restnode.service';
 import { IPedido } from '../../../model/pedido';
+import { IDatosPago } from '../../../model/datospago';
+import { IRestMessage } from '../../../model/mensaje';
 
 
 @Component({
@@ -16,25 +18,31 @@ import { IPedido } from '../../../model/pedido';
   styleUrl: './pedido-component.component.css'
 })
 export class MostrarpedidoComponent {
-  public clientelogged$: Observable<ICliente>;
-  public listaItemsPedido$: Observable<{ libroElemento: ILibro; cantidadElemento: number }[]>;
-  public TotalPedido$: Observable<number>=new Observable<number>();
-  public showcompdatosfacturacion:boolean=false;
+  public listaItems$!:Observable<Array<{libroElemento:ILibro, cantidadElemento:number}>>;
+  
+  public subTotal$!:Observable<number>;
+  public gastosEnvio:number=2; //dependera de provincia de direccion envio q esta en objeto datosPago y bla bla bla...
+
   public listaProvincias$!:Observable<IProvincia[]>;
+  public showcompdatosfacturacion:boolean=false;
+  public datosPago:IDatosPago={  tipodireccionenvio:'principal', tipoDireccionFactura: 'igualenvio', metodoPago:'tarjeta' };
 
-  constructor(
-    @Inject(STORAGE_SERVICE) private storageSvc: IStorageService, private restSvc: RestnodeService
-  ) {
-    this.listaItemsPedido$ = storageSvc.RecuperarItemsPedido();
-    this.clientelogged$ = storageSvc.RecuperarDatosCliente();
-    this.TotalPedido$=this.listaItemsPedido$.pipe(
-        map( items => items.reduce((acc, item) => acc + item.libroElemento.Precio * item.cantidadElemento, 0))
-      );
-    this.listaProvincias$=restSvc.RecuperarProvincias();
-    
-  }
+   constructor( @Inject(STORAGE_SERVICE) private storageSvc:IStorageService,
+                private restSvc:RestnodeService ){
+      this.listaItems$=storageSvc.RecuperarItemsPedido() as Observable<Array<{libroElemento:ILibro, cantidadElemento:number}>>;
+      this.subTotal$=this.listaItems$.pipe(
+                                          map(
+                                            (items:{ libroElemento:ILibro, cantidadElemento:number}[])=> items.reduce( (suma,item)=> suma + (item.libroElemento.Precio * item.cantidadElemento) ,0)
+                                          )
+                                          );
+      this.listaProvincias$=restSvc.RecuperarProvincias();
+   }
 
-  ModficarItemPedido( item: [ {libroElemento: ILibro, cantidadElemento:number}, string ]){
+   ShowCompDatosFacturacion(valor:boolean){
+    this.showcompdatosfacturacion=valor;
+   }
+
+   ModficarItemPedido( item: [ {libroElemento: ILibro, cantidadElemento:number}, string ]){
     
     let _libro:ILibro=item[0].libroElemento;
     let _cantidad: number=item[0].cantidadElemento;
@@ -45,20 +53,45 @@ export class MostrarpedidoComponent {
       case 'borrar': _cantidad=0;  break;
     }
     this.storageSvc.OperarItemsPedido(_libro,_cantidad, item[1] != 'borrar' ? 'modificar' : 'borrar');
-    this.TotalPedido$=this.listaItemsPedido$.pipe(
-      map( items => items.reduce((acc, item) => acc + item.libroElemento.Precio * item.cantidadElemento, 0))
-    );
-   }
-
-   ShowCompDatosFacturacion(valor:boolean){
-    this.showcompdatosfacturacion=valor;
-   }
-   DatosEnvio($event:any){
-    console.log('datos envio:  ', $event);
    }
 
    FinalizarPedido(){
+      console.log('finalzando...');
 
-   }
+      let _pedidoActual:IPedido={
+          idPedido: window.crypto.randomUUID(),
+          fechaPedido: new Date(Date.now()),
+          estadoPedido: 'pendiente de pago',
+          elementosPedido: [] ,
+          subTotalPedido: 0,
+          gastosEnvio: this.gastosEnvio,
+          totalPedido: 0 + this.gastosEnvio,
+          datosPago: this.datosPago
+        };
+
+        this.listaItems$.pipe(
+                                mergeMap(
+                                  (items:Array<{libroElemento:ILibro, cantidadElemento:number}>) => {
+                                            _pedidoActual.elementosPedido=items;
+
+                                            let _subtotal=items.reduce( (s,i)=>s + (i.libroElemento.Precio * i.cantidadElemento), 0);
+                                            _pedidoActual.subTotalPedido=_subtotal;
+                                            _pedidoActual.totalPedido=_subtotal + _pedidoActual.gastosEnvio;
+                                            
+                                            return this.storageSvc.RecuperarDatosCliente() as Observable<ICliente>;
+                                          }
+                                )
+                          ).subscribe(
+                            async clientelog => {
+                                        console.log('datos a mandar a server...',{ pedido: _pedidoActual, email: clientelog!.cuenta.email});
+                                        const resp:IRestMessage|undefined=await this.restSvc.FinalizarPedido( _pedidoActual, clientelog!.cuenta.email);
+                                        if(resp?.codigo===0){
+                                          console.log('pedido finalizado con exito');
+                                          window.location.assign(resp.otrosdatos!);
+                                        }
+
+                            }
+                          )
+        }
 
 }

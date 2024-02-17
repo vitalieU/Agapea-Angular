@@ -13,3 +13,20 @@ export interface ICliente {
     fechaNacimiento?:    Date;
     descripcion?:   string;
 }
+
+/*
+{
+  apellidos: "Ungureanu",
+  pedidos: [
+  ],
+  direcciones: [
+  ],
+  telefono: "665010582",
+  nombre: "Vitalie",
+  cuenta: {
+    login: "vital",
+    ImagenBASE64: "",
+    email: "vitalieungureanu200@gmail.com",
+  },
+}
+*/

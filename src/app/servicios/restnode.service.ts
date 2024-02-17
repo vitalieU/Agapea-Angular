@@ -7,6 +7,7 @@ import { ICategoria } from '../model/categoria';
 import { ILibro } from '../model/libro';
 import { IProvincia } from '../model/provincia';
 import { IMunicipio } from '../model/municipio';
+import { IPedido } from '../model/pedido';
 
 @Injectable({
   providedIn: 'root',
@@ -83,5 +84,32 @@ export default class RestnodeService {
     return this._httpclient.get<IMunicipio[]>(
       `http://localhost:3003/api/Tienda/RecuperarMunicipios?codpro=${codpro}`
     );
+  }
+  public FinalizarPedido(
+    pedido: IPedido,
+    email: string
+  ): Promise<IRestMessage> {
+    const jwt: string | null = window.sessionStorage.getItem('jwt');
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${'hola'}`,
+    });
+    console.log(header);
+    console.log(header);
+    return lastValueFrom(
+      this._httpclient.post<IRestMessage>(
+        'http://localhost:3003/api/Pedido/FinalizarPedido',
+        { pedido, email, jwt },
+        { headers: header }
+      )
+    );
+  }
+
+  public RecuperarCliente(jwt:string):Observable<IRestMessage>{
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${jwt}`,
+    });
+    return this._httpclient.get<IRestMessage>('http://localhost:3003/api/Pedido/RecuperarCliente',{headers:header});
   }
 }

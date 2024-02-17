@@ -3,12 +3,12 @@
     <div class="card mb-3" style="max-width: 540px;">
       <div class="row g-0">
         <div class="col-md-4">
-          <img [src]="this.elemento.libroElemento.ImagenLibroBASE64" class="img-fluid rounded-start" alt="...">
+          <img [src]="this.elmento.libroElemento.ImagenLibroBASE64" class="img-fluid rounded-start" alt="...">
         </div>
         <div class="col-md-8">
           <div class="card-body">
             <div class="d-flex flex-row justify-content-between">
-              <h5 class="card-title">{{this.elemento.libroElemento.Titulo}}</h5>
+              <h5 class="card-title">{{this.elmento.libroElemento.Titulo}}</h5>
               <!-- boton para eliminar libro de elementos pedido-->
               <a (click)="this.OperarElemento('borrar')" class="btn btn-light btn-sm">
                 <span style="color:red"><strong>X</strong></span>
@@ -21,14 +21,14 @@
                 <strong>-</strong>
               </a>
   
-              <label><small>{{this.elemento.cantidadElemento}}</small></label>
+              <label><small>{{this.elmento.cantidadElemento}}</small></label>
   
               <a (click)="this.OperarElemento('sumar')" class="btn btn-outline-primary btn-sm">
                 <strong>+</strong>
               </a>
   
-              <label><small>x</small><span style="color:red">{{this.elemento.libroElemento.Precio}}€</span></label>
-              <label style="color:red">({{this.elemento.libroElemento.Precio * this.elemento.cantidadElemento}})€</label>
+              <label><small>x</small><span style="color:red">{{this.elmento.libroElemento.Precio}}€</span></label>
+              <label style="color:red">({{this.elmento.libroElemento.Precio * this.elmento.cantidadElemento}})€</label>
             </div>
           </div>
         </div>

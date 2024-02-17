@@ -1,6 +1,7 @@
 import { ICliente } from "./cliente";
 import { ILibro } from "./libro";
 import { Observable } from "rxjs";
+import { IPedido } from "./pedido";
 
 export interface IStorageService {
     AlmacenarDatosCliente(datoscliente:ICliente):void;

@@ -5,6 +5,7 @@ import { DetalleslibroComponent } from '../../componentes/zonaTienda/detallesLib
 import { MostrarpedidoComponent } from '../../componentes/zonaTienda/pedidoComponents/pedido-component.component';
 import { AccespPedidoGuard } from '../../servicios_GUARDS/acceso-pedido.guard';
 import { RouterModule, Routes } from '@angular/router';
+import { FinalizarPedidoOkComponent } from '../../componentes/zonaTienda/finalizarPedidoOkCompnent/finalizar-pedido-ok.component';
 
 const routes: Routes = [
   
@@ -17,6 +18,7 @@ const routes: Routes = [
     canActivateChild: [AccespPedidoGuard],
   },
   {path:'MostrarLibro/:isbn13', component:DetalleslibroComponent},
+  {path:'FinalizarPedidoOK', component:FinalizarPedidoOkComponent}
 
 ];
 

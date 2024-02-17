@@ -16,16 +16,12 @@ import { ReactiveFormsModule, FormsModule, FormGroup } from '@angular/forms'
 
 //-------------------- componentes del modulo principal de la aplicacion----------------------------
 import { AppComponent } from './app.component';
-import { RegistroComponent } from './componentes/zonaCliente/registroComponent/registro.component';
 
 //-------------------- directivas del modulo princiapal de la aplicacion ---------------------------
-import { LoginComponent } from './componentes/zonaCliente/loginComponent/login.component';
 
 //-------------------- pipes del modulo princiapal de la aplicacion --------------------------------
 //-------------------- servicios del modulo princiapal de la aplicacion -----------------------------
 import RestnodeService from './servicios/restnode.service';
-import { EmailfilterdomainDirective } from './directivas/emailfilterdomain.directive';
-import { CheckemailexistsDirective } from './directivas/checkemailexists.directive';
 
 import { SubjectstorageService } from './servicios/subjectstorage.service';
 import {STORAGE_SERVICE} from './servicios/injecitontokenstorage';
@@ -42,8 +38,7 @@ import { PaneltiendaComponent } from './componentes/zonaTienda/panelTiendaCompon
     AppComponent,
     PanelclienteComponent,
     PaneltiendaComponent,
-
-    
+  
   ],
   imports: [ //<------------ array con modulos secundiarios q tu aplicacion va a usar
     BrowserModule,

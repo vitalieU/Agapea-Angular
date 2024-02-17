@@ -27,7 +27,7 @@
         </label>
     </div>
     <div class="form-check">
-        <input class="form-check-input" type="radio" name="direccionradios" id="direccionotra" value="otradireccion" (change)="this.CheckdirPpalEnvio(false)" />
+        <input class="form-check-input" type="radio" name="direccionradios" id="direccionotra" [checked]="!this.checkdirppalenvio" value="otradireccion" (change)="this.CheckdirPpalEnvio(false)" />
         <label class="form-check-label" for="direccionotra">
             Recibir en otra direccion
         </label>
@@ -41,15 +41,14 @@
     <div class="row mt-2" id="filadireccioncontainer">
 
         <div class="container" id="direccioncontainer">
-            <form [formGroup]="formDatosEnvio" (change)="this.EnviarDatosEnvio()">
             <div class="row">
                 <div class="col-6">
                     <label for="inputPais" class="form-label">Pais</label>
-                    <input type="text" class="form-control" id="inputPais" formControlName="pais" placeholder="España" name="pais" />
+                    <input type="text" class="form-control" id="inputPais" placeholder="España" name="pais" [value]="this.datosPago.direccionEnvio?.pais || '' " (input)="this.datosPago.direccionEnvio!.pais=$any($event.target).value" />
                 </div>
                 <div class="col-6">
                     <label for="inputProvincia" class="form-label">Provincia*</label>
-                    <select id="inputProvincia" class="form-select" name="provincia" (change)="CargarMunicipios($any($event.target).value);" formControlName="provincia">
+                    <select id="inputProvincia" class="form-select" name="provincia" (change)="CargarMunicipios($any($event.target).value);">
                         <option value="-1" selected> - Seleccionar Provincia - </option>
                         @for (unaprov of this.listaProvincias; track unaprov.CPRO)
                         {
@@ -61,18 +60,18 @@
             <div class='row'>
                 <div class="col-6">
                     <label for="inputCalle" class="form-label">Direccion completa*</label>
-                    <input type="text" class="form-control" id="inputCalle" placeholder="Mi Direccion" name="calle"  formControlName="direccion"/>
+                    <input type="text" class="form-control" id="inputCalle" placeholder="Mi Direccion" name="calle" [value]="this.datosPago.direccionEnvio?.calle || ''" (input)="this.datosPago.direccionEnvio!.calle=$any($event.target).value" />
                 </div>
 
                 <div class="col-2">
                     <label for="inputCP" class="form-label">Codigo Postal*</label>
-                    <input type="text" class="form-control" id="inputCP" placeholder="Codigo Postal: 28803" name="cp" formControlName="cp" />
+                    <input type="text" class="form-control" id="inputCP" placeholder="Codigo Postal: 28803" name="cp" [value]="this.datosPago.direccionEnvio?.cp || ''" (input)="this.datosPago.direccionEnvio!.cp=$any($event.target).value"/>
                 </div>
 
 
                 <div class="col-4">
                     <label for="inputMunicipio" class="form-label">Localidad*</label>
-                    <select id="inputMunicipio" class="form-select" name="municipio"  #selectmunis formControlName="municipio">
+                    <select id="inputMunicipio" class="form-select" name="municipio" disabled #selectmunis (change)="EstableceMunicipio($any($event.target).value)">
                         @for(unmuni of this.listaMunicipios$ | async; track unmuni.DMUN50)
                         {
                             <option [value]="unmuni.CMUM + '-' + unmuni.DMUN50">{{unmuni.DMUN50}}</option>
@@ -83,7 +82,6 @@
                     </select>
                 </div>
             </div>
-            </form>
         </div>
 
     </div>
@@ -129,28 +127,28 @@
         <div class='row'>
             <div class='col-6'>
                 <label for="nombreEnvio" class="form-label">Nombre*</label>
-                <input type="text" class="form-control" id="nombreEnvio" name="nombreEnvio"  />
+                <input type="text" class="form-control" id="nombreEnvio" name="nombreEnvio" [value]="this.datosPago.nombreEnvio ||''" (input)="this.datosPago.nombreEnvio=$any($event.target).value" />
             </div>
             <div class='col-6'>
                 <label for="apellidosEnvio" class="form-label">Apellidos*</label>
-                <input type="text" class="form-control" id="apellidosEnvio" name="apellidosEnvio"  />
+                <input type="text" class="form-control" id="apellidosEnvio" name="apellidosEnvio" [value]="this.datosPago.apellidosEnvio ||''" (input)="this.datosPago.apellidosEnvio=$any($event.target).value" />
             </div>
         </div>
         <div class="row">
             <div class='col-6'>
                 <label for="emailEnvio" class="form-label">Correo Electronico*</label>
-                <input type="text" class="form-control" id="emailEnvio" name="emailEnvio"  />
+                <input type="text" class="form-control" id="emailEnvio" name="emailEnvio" [value]="this.datosPago.emailEnvio ||'' " (input)="this.datosPago.emailEnvio=$any($event.target).value" />
             </div>
             <div class='col-6'>
                 <label for="telefonoContactoNuevo" class="form-label">Telefono de contacto*</label>
-                <input type="text" class="form-control" id="telefonoContactoNuevo" name="telefonoContacto"  />
+                <input type="text" class="form-control" id="telefonoContactoNuevo" name="telefonoContacto" [value]="this.datosPago.telefonoEnvio||'' " (input)="this.datosPago.telefonoEnvio=$any($event.target).value" />
             </div>
         </div>
     }
 <div class="row">
     <div class='col-12'>
         <label for="otrosDatos" class="form-label">Otros datos de entrega*</label>
-        <input type="text" class="form-control" id="otrosDatos" name="otrosDatos"  />
+        <input type="text" class="form-control" id="otrosDatos" name="otrosDatos" [value]="this.datosPago.otrosDatos ||''" (input)="this.datosPago.otrosDatos=$any($event.target).value"  />
     </div>
 </div>
 

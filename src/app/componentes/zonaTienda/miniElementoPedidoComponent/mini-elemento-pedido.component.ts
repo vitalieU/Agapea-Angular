@@ -10,10 +10,11 @@ import { KeyValue } from '@angular/common';
   styleUrl: './mini-elemento-pedido.component.css',
 })
 export class ElementopedidoComponent {
-  @Input() public elemento!:{libroElemento:ILibro, cantidadElemento:number};
+
+  @Input() public elmento!:{libroElemento:ILibro, cantidadElemento:number};
   @Output() public operarItemEvent:EventEmitter< [ {libroElemento:ILibro, cantidadElemento:number}, string ] >=new EventEmitter< [ {libroElemento:ILibro, cantidadElemento:number}, string ] >();
 
   public OperarElemento(operacion:string){
-    this.operarItemEvent.emit( [ this.elemento, operacion ] );
+    this.operarItemEvent.emit( [ this.elmento, operacion ] );
   }
 }

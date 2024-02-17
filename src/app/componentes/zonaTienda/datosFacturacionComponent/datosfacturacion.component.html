@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="tipofactura" id="datosfacturaempresa" checked value="facturaempresa" (change)="this.CheckEmpresaChange(true)" />
+                    <input class="form-check-input" type="radio" name="tipofactura" id="datosfacturaempresa" checked value="facturaempresa" (change)="this.CheckEmpresaChange(true)"  />
                     <label class="form-check-label" for="datosfacturaempresa">
                         Empresa
                     </label>
@@ -27,11 +27,11 @@
         <div class="row">
             <div class="col-6">
                 <label for="nombreFactura" class="form-label"> {{this.checkempresa ? "Nombre de la empresa" : "Apellidos y Nombre"}}  </label>
-                <input type="text" class="form-control" id="nombreFactura" name="nombreFactura"  />
+                <input type="text" class="form-control" id="nombreFactura" name="nombreFactura"  [value]="this.datosPago.nombreFactura ||''" (input)="this.datosPago.nombreFactura=$any($event.target).value"  />
             </div>
             <div class="col-6">
                 <label for="docFactura" class="form-label"> {{this.checkempresa ? "CIF" : "NIF"}} </label>
-                <input type="text" class="form-control" id="docFactura" name="docFactura" />
+                <input type="text" class="form-control" id="docFactura" name="docFactura"  [value]="this.datosPago.docfiscalFactura ||''" (input)="this.datosPago.docfiscalFactura=$any($event.target).value" />
             </div>
         </div>
 
@@ -39,7 +39,7 @@
         <div class="row">
             <div class="col">
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="checkdireccionfactura" checked (change)="this.checkmismadirecfactura=!this.checkmismadirecfactura "/>
+                    <input class="form-check-input" type="checkbox" value="" id="checkdireccionfactura" checked (change)="ChangeDirecFacturacion() "/>
                     <label class="form-check-label" for="checkdireccionfactura">
                         Direccion de facturacion igual que la de envio
                     </label>
@@ -55,7 +55,7 @@
                     <div class="row">
                         <div class="col-6">
                             <label for="inputPaisFactura" class="form-label">Pais</label>
-                            <input type="text" class="form-control" id="inputPaisFactura" placeholder="España" name="paisfactura" />
+                            <input type="text" class="form-control" id="inputPaisFactura" placeholder="España" name="paisfactura"  [value]="this.datosPago.direccionFacturacion!.pais" (input)="this.datosPago.direccionFacturacion!.pais=$any($event.target).value"/>
                         </div>
                         <div class="col-6">
                             <label for="inputProvinciaFactura" class="form-label">Provincia*</label>
@@ -71,18 +71,18 @@
                     <div class='row'>
                         <div class="col-6">
                             <label for="inputCalleFactura" class="form-label">Direccion completa*</label>
-                            <input type="text" class="form-control" id="inputCalleFactura" placeholder="Mi Direccion" name="callefactura" />
+                            <input type="text" class="form-control" id="inputCalleFactura" placeholder="Mi Direccion" name="callefactura" [value]="this.datosPago.direccionFacturacion!.calle" (input)="this.datosPago.direccionFacturacion!.calle=$any($event.target).value" />
                         </div>
 
                         <div class="col-2">
                             <label for="inputCPFactura" class="form-label">Codigo Postal*</label>
-                            <input type="text" class="form-control" id="inputCPFactura" placeholder="Codigo Postal: 28803" name="cpfactura" />
+                            <input type="text" class="form-control" id="inputCPFactura" placeholder="Codigo Postal: 28803" name="cpfactura" [value]="this.datosPago.direccionFacturacion!.cp" (input)="this.datosPago.direccionFacturacion!.cp=$any($event.target).value"/>
                         </div>
 
 
                         <div class="col-4">
                             <label for="inputMunicipioFactura" class="form-label">Localidad*</label>
-                            <select id="inputMunicipioFactura" class="form-select" name="municipiofactura"  #selectmunis>
+                            <select id="inputMunicipioFactura" class="form-select" name="municipiofactura" disabled #selectmunisfact (change)="EstableceMunicipio($any($event.target).value)">
                                 @for(unmuni of this.listaMunicipios$ | async; track unmuni.DMUN50)
                                 {
                                     <option [value]="unmuni.CMUM + '-' + unmuni.DMUN50">{{unmuni.DMUN50}}</option>
