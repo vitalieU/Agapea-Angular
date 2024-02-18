@@ -1,0 +1,80 @@
+<div class=" container">
+    <div class="col">
+
+        <div class="row" >
+            <h2>Mis Compras</h2> 
+            <form  >
+            <select formControlName="mes" class="form-select" id="meses m-2"  (change)="this.SeleccionarMes($event)">
+                <option value="0" selected>Elige mes</option>
+                @for ( mes of meses; track $index) {
+                    <option [value]="mes[0]">{{mes[1]}}</option>
+                }
+            </select>  
+            <select formControlName="anio" class="form-select" id="años m-2" (change)="this.SeleccionarAnio($event)" >
+                <option value="0" selected>Elige año</option>
+                @for(anio of anios; track $index) {
+
+                    <option [value]="anio">{{anio}}</option>
+                }
+                
+            </select>
+            <button type="button btn-primary" class="btn btn-link btn-sm" (click)="this.FiltrarPedidos()">Filtrar</button>
+            </form>
+        </div>
+       
+
+       
+         <div *ngFor="let pedido of pedidos">
+            <div class=" .bg-body-tertiary m-2 p-2" >
+                <div class="row">
+                    <button type="button btn-primary" class="btn btn-link btn-sm" (click)="GenerarFactura($event)" [value]=" pedido.idPedido">Generar Factura</button>
+
+                    <div class="col">
+                        <h3>Pedido: {{pedido.idPedido}}</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h4>Fecha: {{pedido.fechaPedido}}</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h4>Estado: {{pedido.estadoPedido}}</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h4>Total: {{pedido.totalPedido}} €</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h4>Productos:</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div *ngFor="let producto of pedido.elementosPedido">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title">{{producto.libroElemento.Titulo}}</h5>
+                                            <img [src]="producto.libroElemento.ImagenLibroBASE64" alt="imagen" class="img-fluid" style="width: 2rem;">
+                                            
+                                            <button type="button btn-primary" class="btn btn-link btn-sm" (click)="VolverAComprar($event)" [value]="producto.libroElemento.ISBN13 + '*_*' + pedido.idPedido" >Volver a comprar</button>
+                                            
+                                            
+                                        </div>
+                                    </div>
+                            </div>
+                                
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

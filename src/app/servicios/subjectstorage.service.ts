@@ -4,9 +4,7 @@ import { ICliente } from '../model/cliente';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ILibro } from '../model/libro';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class SubjectstorageService implements IStorageService{
 
   private _clienteSubject$: BehaviorSubject<ICliente> =
@@ -20,11 +18,12 @@ export class SubjectstorageService implements IStorageService{
     { libroElemento: ILibro; cantidadElemento: number }[]
   >([]);
 
-  constructor() {}
+  constructor() {
+    console.log('creando servicio de almacenamiento');
+  }
 
   AlmacenarDatosCliente(datoscliente: ICliente): void {
     this._clienteSubject$.next(datoscliente);
-    console.log('almacenando datos cliente...', datoscliente);
   }
   AlmacenarJWT(jwt: string): void {
     this._jwtSubject$.next(jwt);

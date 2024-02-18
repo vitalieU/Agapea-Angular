@@ -31,6 +31,7 @@ import { ZonaclienteModule } from './modulos/zonacliente/zonacliente.module';
 import { ZonatiendaModule } from './modulos/zonatienda/zonatienda.module';
 import { PanelclienteComponent } from './componentes/zonaCliente/panelClienteComponent/panelcliente.component';
 import { PaneltiendaComponent } from './componentes/zonaTienda/panelTiendaComponent/paneltienda.component';
+import { CoreModule } from './modulos/coremodule/storage-core.module';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { PaneltiendaComponent } from './componentes/zonaTienda/panelTiendaCompon
     ReactiveFormsModule,
     FormsModule,
     ZonaclienteModule,
-    ZonatiendaModule
+    ZonatiendaModule,
+    //CoreModule
   ],
   providers: [
     RestnodeService,

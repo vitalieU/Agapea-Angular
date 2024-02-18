@@ -1,1 +1,35 @@
-<p>panelcliente works!</p>
+    <!-- panel de opciones del cliente -->
+
+    <h6 class="text-dark mt-4 ms-3">PANEL PERSONAL DEL CLIENTE</h6>
+    <div class="container">
+        <!-- fila con imagen cliente y nombre y email de bienvenida
+        <div class="row" style="background:#ededed;">
+            <div class="col text-center">
+                <img [src]="this.cliente.cuenta.imagenAvatarBASE64 "alt="..." style="width:115px; height:140px;"/>
+            </div>
+        </div>
+    
+            <div class="row" style="background:#ededed;">
+            <div class="col">
+                <p class="text-muted"><small>Bienvenido {{this.cliente}} {{this.cliente.apellidos}} ( {{this.cliente.cuenta.email}} )</small></p>
+            </div>
+        </div>
+        -->
+
+        
+    
+        <!-- fila con opciones panel cliente-->
+        <div class="row">
+            <div class="col">
+                <div class="list-group">
+                       @for((opciones of this.listaOpciones) ; track this.listaOpciones){
+                            <a [routerLink]="(opciones.replace(' ', ''))" class="list-group-item list-group-item-action" [ngClass]="{ opciones}">
+                                {{opciones}}
+                            </a>
+                       
+                        }
+    
+                </div>
+            </div>
+        </div>
+    </div>

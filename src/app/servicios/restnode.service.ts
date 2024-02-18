@@ -92,7 +92,7 @@ export default class RestnodeService {
     const jwt: string | null = window.sessionStorage.getItem('jwt');
     const header = new HttpHeaders({
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${'hola'}`,
+      Authorization: `Bearer ${jwt?.replaceAll('"', '')}`,
     });
     console.log(header);
     console.log(header);
@@ -108,8 +108,8 @@ export default class RestnodeService {
   public RecuperarCliente(jwt:string):Observable<IRestMessage>{
     const header = new HttpHeaders({
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${jwt}`,
+     
     });
-    return this._httpclient.get<IRestMessage>('http://localhost:3003/api/Pedido/RecuperarCliente',{headers:header});
+    return this._httpclient.post<IRestMessage>('http://localhost:3003/api/Pedido/RecuperarCliente',{headers:header});
   }
 }

@@ -12,6 +12,8 @@ import { EmailfilterdomainDirective } from '../../directivas/emailfilterdomain.d
 import { CheckemailexistsDirective } from '../../directivas/checkemailexists.directive';
 import { ModaldireccionesComponent } from '../../componentes/zonaCliente/modalDireccionesComponent/modaldirecciones.component';
 import { MinidireccionComponent } from '../../componentes/zonaCliente/miniDireccionComponent/minidireccion.component';
+import { STORAGE_SERVICE } from '../../servicios/injecitontokenstorage';
+import { SubjectstorageService } from '../../servicios/subjectstorage.service';
 
 
 
@@ -32,9 +34,10 @@ import { MinidireccionComponent } from '../../componentes/zonaCliente/miniDirecc
     ReactiveFormsModule,
     FormsModule,
     ZonaclienteRoutingModule,
-   
     
     
-  ]
+    
+  ],
+
 })
 export class ZonaclienteModule { }

@@ -16,6 +16,8 @@ import { AppRoutingModule } from '../../app-routing.module';
 import { MiniLibroComponent } from '../../componentes/zonaTienda/miniLibroComponent/mini-libro.component';
 import { DetalleslibroComponent } from '../../componentes/zonaTienda/detallesLibroComponent/detalles-libro.component';
 import { FinalizarPedidoOkComponent } from '../../componentes/zonaTienda/finalizarPedidoOkCompnent/finalizar-pedido-ok.component';
+import { STORAGE_SERVICE } from '../../servicios/injecitontokenstorage';
+import { SubjectstorageService } from '../../servicios/subjectstorage.service';
 
 
 @NgModule({
@@ -40,6 +42,7 @@ import { FinalizarPedidoOkComponent } from '../../componentes/zonaTienda/finaliz
     ReactiveFormsModule,
     FormsModule,
   ],
+
 
 })
 export class ZonatiendaModule {}

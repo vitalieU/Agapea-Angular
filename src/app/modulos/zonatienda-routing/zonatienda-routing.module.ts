@@ -18,7 +18,7 @@ const routes: Routes = [
     canActivateChild: [AccespPedidoGuard],
   },
   {path:'MostrarLibro/:isbn13', component:DetalleslibroComponent},
-  {path:'FinalizarPedidoOK', component:FinalizarPedidoOkComponent}
+  {path:'PedidoFinalizado', component:FinalizarPedidoOkComponent}
 
 ];
 

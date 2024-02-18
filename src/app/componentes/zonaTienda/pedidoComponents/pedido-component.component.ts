@@ -87,11 +87,16 @@ export class MostrarpedidoComponent {
                                         const resp:IRestMessage|undefined=await this.restSvc.FinalizarPedido( _pedidoActual, clientelog!.cuenta.email);
                                         if(resp?.codigo===0){
                                           console.log('pedido finalizado con exito');
-                                          window.location.assign(resp.otrosdatos!);
+                                          window.location.assign(resp.otrosdatos! as string);
                                         }
 
                             }
                           )
         }
+
+    ngOnDestroy(): void {
+      console.log('destruyendo...');
+      this.listaItems$.subscribe().unsubscribe();
+    }    
 
 }

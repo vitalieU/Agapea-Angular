@@ -23,27 +23,33 @@ export class AppComponent {
   // 'panelTienda' si la ruta es /Tienda
   // '' si la ruta es /Cliente/Login o /Cliente/Registro
 
-  routerEvent$:Observable<RouterEvent>;
-  patron: RegExp = new RegExp('/Cliente/(Login|Registro)|/Tienda/MostrarPedido');
+  public showPanel:string=''; //<----- 'panelCliente' si en url: /Cliente/Panel/...., 'panelTienda' si en url: /Tienda/..., '' si en url /Cliente/Login o Registro
+  public patron:RegExp=new RegExp("(/Cliente/(Login|Registro)|/Tienda/MostrarPedido)","g");
+  constructor(private router:Router, private _rest: RestnodeService, private activatedRoute: ActivatedRoute) {
+    
+    this.router
+    .events
+    .pipe(
+          //tap( ev => console.log(ev) ),
+          map( ev => ev as RouterEvent),
+          filter( (ev,i)=> ev instanceof NavigationStart)
+    )
+    .subscribe(
+      ev => {
+        console.log('testeando url en layout...', ev.url);
 
-  constructor(router: Router, private _rest: RestnodeService, private activatedRoute: ActivatedRoute) {
-    /*
-    router.events.subscribe((ev) => {
-      if(ev instanceof NavigationStart){
-        if(new RegExp('(/Cliente/(Login|Registro)|/Tienda/MostrarPedido)').test(ev.url)){
+        if( /\/Cliente\/Panel\/.*/.test(ev.url)){
+            this.showPanel='panelCliente';
+        } else if(/\/Tienda\/(?!MostrarPedido)|^\/?$/.test(ev.url)){
+           this.showPanel='panelTienda';
+        } else {
           this.showPanel='';
+        }
+        console.log('show panel valoe...', this.showPanel);
       }
-      else{
-        this.showPanel=new RegExp("/Cliente/Panel/*").test(ev.url)?'panelCliente':'panelTienda';
-      }
-    }
-*/
-  this.routerEvent$=router.events.pipe(
-    map(ev=>ev as RouterEvent),
-    filter((ev)=>ev instanceof NavigationStart )
-  );
-  }
+    );
 
+}
 
 
 }

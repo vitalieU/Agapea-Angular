@@ -23,10 +23,16 @@ export class AuthjwtInterceptor implements HttpInterceptor {
         if (jwt != null || jwt != '') {
           let _reqclonada = request.clone({
             setHeaders: { Authorization: `Bearer ${jwt}` },
+            
           });
+  
           return next.handle(_reqclonada);
         } else {
-          return next.handle(request);
+          const token = window.sessionStorage.getItem('jwt') as string;
+          let _reqclonada = request.clone({
+            setHeaders: { Authorization: `Bearer ${token}` },
+          });
+          return next.handle(_reqclonada);
         }
       })
     );

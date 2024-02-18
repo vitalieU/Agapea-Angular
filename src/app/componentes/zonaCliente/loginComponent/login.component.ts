@@ -23,15 +23,14 @@ export class LoginComponent {
   }
 
   async LoginCliente(loginForm:NgForm):Promise<void>{
-    console.log(loginForm);
     const respLogin = await this.service.LoginCliente(loginForm.value.email,loginForm.value.password);
     if(respLogin.codigo===0){
       let cliente:ICliente|undefined = respLogin.datosCliente;
       //lo guardo en la session storage porque no quiero que se pierda al recargar la pagina, y ademas, al cerrar session se borra 
       //y asi nadie te puede robar la session
-      window.sessionStorage.setItem('jwt',JSON.stringify(respLogin.token));
-      console.log('cliente logeado:',cliente);
+      window.sessionStorage.setItem('jwt',respLogin.token!);
       this.storgeSvc.AlmacenarDatosCliente(cliente!);
+      this.storgeSvc.AlmacenarJWT(respLogin.token!);
       this.router.navigateByUrl('/Tienda/Libros/2');
     }
     else{
